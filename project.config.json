@@ -1,0 +1,503 @@
+{
+	"description": "项目配置文件。",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": true,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"bundle": false
+	},
+	"miniprogramRoot": "dist/",
+	"compileType": "miniprogram",
+	"appid": "wx9623eaba0cede0d7",
+	"projectname": "matou",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "pages/login/main",
+					"pathName": "pages/login/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/forgetPassword/main",
+					"pathName": "pages/forgetPassword/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/refundMenu/main",
+					"pathName": "pages/refundMenu/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 3,
+					"name": "pages/pOrder/shopListForpay/main",
+					"pathName": "pages/pOrder/shopListForpay/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/forgetPassword_Code/main",
+					"pathName": "pages/forgetPassword_Code/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/forgetPasswordNewPwd/main",
+					"pathName": "pages/forgetPasswordNewPwd/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/forgetPasswordSuccess/main",
+					"pathName": "pages/forgetPasswordSuccess/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/memberActivityNo/main",
+					"pathName": "pages/memberActivityNo/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 20,
+					"name": "pages/updatapage/main",
+					"pathName": "pages/updatepage/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/F2FExtension/main",
+					"pathName": "pages/F2FExtension/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/ExtensionPartner/main",
+					"pathName": "pages/ExtensionPartner/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/me/main",
+					"pathName": "pages/me/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 23,
+					"name": "pages/shopZizhi/main",
+					"pathName": "pages/shopZizhi/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/kaidian/main",
+					"pathName": "pages/kaidian/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/shopJoin/main",
+					"pathName": "pages/shopJoin/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/shopJoinInfo/main",
+					"pathName": "pages/shopJoinInfo/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/searchResult/main",
+					"pathName": "pages/searchResult/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/contactUs/main",
+					"pathName": "pages/contactUs/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/systemUpgradeHF/main",
+					"pathName": "pages/systemUpgradeHF/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/forTest/main",
+					"pathName": "pages/forTest/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/footprint/main",
+					"pathName": "pages/footprint/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/shopListForCoupon/main",
+					"pathName": "pages/shopListForCoupon/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/maLi/main",
+					"pathName": "pages/maLi/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/refund/main",
+					"pathName": "pages/refund/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/order/main",
+					"pathName": "pages/order/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/refundMenu/main",
+					"pathName": "pages/refundMenu/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/payCode/main",
+					"pathName": "pages/payCode/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 27,
+					"name": "pages/pMe/records/main",
+					"pathName": "pages/pMe/records/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pageMiss/main",
+					"pathName": "pages/pageMiss/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/recordTixian/main",
+					"pathName": "pages/recordTixian/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pIndex/shopDetail/main",
+					"pathName": "pages/pIndex/shopDetail/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pIndex/merchantDetail/main",
+					"pathName": "pages/pIndex/merchantDetail/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 43,
+					"name": "pages/member/detail/main",
+					"pathName": "pages/member/detail/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 44,
+					"name": "pages/pMe/member/joinVip/main",
+					"pathName": "pages/pMe/member/joinVip/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pMe/member/joinCopartner/main",
+					"pathName": "pages/pMe/member/joinCopartner/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/shopListForpay/main",
+					"pathName": "pages/shopListForpay/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/addTest/main",
+					"pathName": "pages/addTest/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/addAddress/main",
+					"pathName": "pages/addAddress/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/addressList/main",
+					"pathName": "pages/addressList/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/Extension/main",
+					"pathName": "pages/Extension/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/ExtensionPartner/main",
+					"pathName": "pages/ExtensionPartner/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/memberActivity/main",
+					"pathName": "pages/memberActivity/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pEncyclopedia/memberActivity/main",
+					"pathName": "pages/pEncyclopedia/memberActivity/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pMe/ExtensionPartner/main",
+					"pathName": "pages/pMe/ExtensionPartner/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 44,
+					"name": "pages/pMe/payPassword/main",
+					"pathName": "pages/pMe/payPassword/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pIndex/typeGoodList/main",
+					"pathName": "pages/pIndex/typeGoodList/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pIndex/shopDetail/main",
+					"pathName": "pages/pIndex/shopDetail/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pOrder/maLi/main",
+					"pathName": "pages/pOrder/maLi/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pOrder/shopListForpay/main",
+					"pathName": "pages/pOrder/shopListForpay/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 49,
+					"name": "pages/pEncyclopedia/memberActivity/main",
+					"pathName": "pages/pEncyclopedia/memberActivity/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pEncyclopedia/meActivityDetails/main",
+					"pathName": "pages/pEncyclopedia/meActivityDetails/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pIndex/valueOrder/main",
+					"pathName": "pages/pIndex/valueOrder/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 52,
+					"name": "pages/pIndex/login/main",
+					"pathName": "pages/pIndex/login/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 53,
+					"name": "pages/pMe/footprint/main",
+					"pathName": "pages/pMe/footprint/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pOrder/refund/main",
+					"pathName": "pages/pOrder/refund/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 55,
+					"name": "pages/pIndex/searchKeys/main",
+					"pathName": "pages/pIndex/searchKeys/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 56,
+					"name": "pages/pMe/addressListForSelect/main",
+					"pathName": "pages/pMe/addressListForSelect/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pIndex/shopDetail/main",
+					"pathName": "pages/pIndex/shopDetail/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pMe/F2FExtension/main",
+					"pathName": "pages/pMe/F2FExtension/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pEncyclopedia/Agreement/main",
+					"pathName": "pages/pEncyclopedia/Agreement/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pMe/collectList/main",
+					"pathName": "pages/pMe/collectList/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pIndex/valueDetail/main",
+					"pathName": "pages/pIndex/valueDetail/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pIndex/merchantDetail/main",
+					"pathName": "pages/pIndex/merchantDetail/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/pIndex/valueOrder/main",
+					"pathName": "pages/pIndex/valueOrder/main",
+					"scene": null
+				}
+			]
+		}
+	}
+}

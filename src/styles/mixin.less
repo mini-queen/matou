@@ -1,0 +1,45 @@
+.font-bold() {
+  font-weight: bold;
+}
+.font-rest() {
+  font-weight: normal;
+}
+.font-0() {
+  font-size:0;
+}
+
+.ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ellipsis-clamp( @num ) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: @num;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
+//新
+.btn--default {
+  width:120rpx;
+  height:50rpx;
+  line-height: 50rpx;
+  border:1px solid @color-orange;
+  border-radius:7rpx;
+  text-align: center;
+  color: @color-orange;
+  font-size: 24rpx;
+}
+.btn--primary {
+  width: 552rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  background-color: @color-orange;
+  font-size: 26rpx;
+  color: @color-white;
+}

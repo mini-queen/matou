@@ -1,0 +1,159 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/encyclopedia/main",
+    "pages/order/main",
+    "pages/member/detail/main",
+    "pages/me/main"    
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "便利码头",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#9a9a9a",
+    "selectedColor": "#FE6A00",
+    "borderStyle": "white",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/index/main",
+        "iconPath": "/static/images/home.png",
+        "selectedIconPath": "/static/images/home_selected.png"
+      },
+      {
+        "text": "百科",
+        "pagePath": "pages/encyclopedia/main",
+        "iconPath": "/static/images/encyclopedia.png",
+        "selectedIconPath": "/static/images/encyclopedia_selected.png"
+      },
+      {
+        "text": "零元购",
+        "pagePath": "pages/order/main",
+        "iconPath": "/static/images/cart-zero.png",
+        "selectedIconPath": "/static/images/cart-zero.png"
+      },
+      {
+        "text": "会员",
+        "pagePath": "pages/member/detail/main",
+        "iconPath": "/static/images/member.png",
+        "selectedIconPath": "/static/images/member_selected.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/me/main",
+        "iconPath": "/static/images/me.png",
+        "selectedIconPath": "/static/images/me_selected.png"
+      }
+    ]
+  },
+  "subPackages": [
+    {
+      "root": "pages/pIndex/",
+      "pages": [
+        "index/main",
+        "goodDetail/main",
+        "goodOrder/main",
+        "orderDetail/main",
+        "goodPay/main",
+        "goodPayOk/main",
+        "orderList/main",
+        "valueDetail/main",
+        "valueUnPay/main",
+        "valueOrder/main",
+        "shopDetail/main",
+        "merchantDetail/main",
+        "typeGoodList/main",
+        "login/main",
+        "funcList/main",
+        "searchKeys/main"
+        
+      ]
+    },
+    {
+      "root":"pages/pMe/",
+      "pages":[
+        "setting/main",
+        "transaction/main",
+        "credit/main",
+        "addressMap/main",
+        "citySelect/main",
+        "addAddress/main",
+        "addressList/main",
+        "selectAddress/main",
+        "Coupon/main",
+        "CouponList/main",
+        "forgetPassword/main",
+        "forgetPassword_Code/main",
+        "forgetPasswordNewPwd/main",
+        "forgetPasswordSuccess/main",
+        "message/main",
+        "messageDetails/main",
+        "bindPhone/main",
+        "changePhone/main",
+        "payPassword/main",
+        "ressetpayPassword/main",
+        "changepayPassword/main",
+        "setpayPassword/main",
+        "changePassword/main",
+        "loginPassword/main",
+        "records/main",
+        "recordTixian/main",
+        "kaidian/main",
+        "Extension/main",
+        "ExtensionPartner/main",
+        "F2FExtension/main",
+        "systemUpgradeHF/main",
+        "pageMiss/main",
+        "forTestPass/main",
+        "updatepage/main",
+        "loginPhone/main",
+        "footprint/main",
+        "contactUs/main",
+        "collectList/main",
+        "addressListForSelect/main",
+        "aboutUs/main"
+      ]
+    },
+    {
+      "root": "pages/pOrder/",
+      "pages": [
+        "shopMap/main",
+        "shopMapList/main",
+        "shopOrder/main",
+        "payment/main",
+        "withdraw/main",
+        "orderRemark/main",
+        "shopZizhi/main",
+        "shopJoinInfo/main",
+        "shopJoin/main",
+        "shopListForCoupon/main",
+        "shopListForpay/main",
+        "refund/main",
+        "refundMenu/main",
+        "searchResult/main",
+        "payCode/main",
+        "maLi/main"
+      ]
+    },
+    {
+      "root": "pages/pEncyclopedia/",
+      "pages": [
+        "detail/main",
+        "member/joinVip/main",
+        "member/joinCopartner/main",
+        "memberActivity/main",
+        "meActivityDetails/main",
+        "Agreement/main"
+      ]
+    }
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序定位"
+    }
+  }
+}
