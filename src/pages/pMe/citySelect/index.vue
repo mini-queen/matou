@@ -13,7 +13,7 @@
         :key="index"
         @click="selectItem(item)"
       >
-        {{item.cname}}
+        {{item.name}}
       </div>
     </div>
     <div v-else>
@@ -26,13 +26,14 @@
             class="city-list"
             :scroll-y="true"
             :scroll-with-animation="true"
-            :scroll-into-view="toView" 
+            :scroll-top="scrollTop"
             @scroll="scroll"
           >
+            <!-- :scroll-into-view="toView"  -->
             <div class="city-items" v-for="(city,index) in cityList" :key="index">
               <div class="city-title center-left" :id="city.pinyinPrefix">{{city.pinyinPrefix}}</div>
               <div class="city-item center-left" v-for="(item,inx) in city.citys" :key="inx" @click="selectItem(item)">
-                {{item.cname}}
+                {{item.name}}
               </div>
             </div>
           </scroll-view>
@@ -51,37 +52,88 @@
   </div>
 </template>
 <script>
-  import { getCityList, getCityByQuery } from '@/utils/api'
+import { getCityList, getCityByQuery } from '@/utils/api'
+import { debounce } from '@/utils/tool'
+var QQMapWX = require('../../../../lib/qqmap-wx-jssdk.min.js')
+var _this
   export default {
     data () {
       return {
         city: '',
         cityList: [],
-        barList: [],
-        activeBar: 'A',
-        toView: 'A',
-        searchList: []
+        barList: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+        't', 'u', 'v', 'w', 'x', 'y', 'z'],
+        activeBar: 'a',
+        toView: 'a',
+        searchList: [],
+        scrollTop: 0,
+        heights: []
       }
     },
     computed: {
-  
+
     },
     components: {
 
     },
     mounted () {
+      const that = this
+      _this = this
+      this.qqmapsdk = new QQMapWX({
+        key: 'SDKBZ-66T34-UZPUY-DDPCH-GO6DK-AYFKQ'
+      })
+      this.qqmapsdk.getCityList({
+        success: function (res) { // 成功后的回调
+            let cityList = res.result[1]
+            cityList = cityList.filter(item => /市/.test(item.fullname)).sort((pre, next) => pre.pinyin[0].localeCompare(next.pinyin[0]))
+            that.trans(that.barList, cityList)
+            that.calcHeight()
+        }
+      })
       const { city } = this.$root.$mp.query
       this.city = city
       this.init()
-      this.getCitys()
+      // this.getCitys()
     },
     onUnload () {
-  
+
     },
     methods: {
+      calcHeight () {
+        // city-title
+        const that = this
+        setTimeout(() => {
+          wx.createSelectorQuery().selectAll('.city-title').boundingClientRect(function (rects) {
+            console.log(rects, 1111)
+            let heights = rects.map(item => item.top)
+            let h0 = heights[0]
+            that.heights = heights.map(item => {
+              item -= h0
+              return item
+            })
+          }).exec()
+        }, 1000)
+      },
+      trans (pins, citys) {
+        let cityList = []
+        let barList = []
+        pins.forEach(pin => {
+            let list = citys.filter(c => c.pinyin[0].indexOf(pin) === 0)
+            if (list.length) {
+              cityList.push({
+                pinyinPrefix: pin,
+                citys: list
+              })
+              barList.push(pin)
+            }
+        })
+        this.cityList = cityList
+        this.barList = barList
+      },
       init () { // 初始化变量
-        this.activeBar = 'A'
-        this.toView = 'A'
+        // this.activeBar = 'a'
+        // this.toView = 'a'
+        // this.scrollTop = 0
         this.searchList = []
       },
       async getCitys () {
@@ -94,27 +146,41 @@
           }
         }
       },
-      selectCity (item) {
-        this.activeBar = item
-        this.toView = item
+      selectCity: debounce((item) => {
+        _this.activeBar = item
+        // this.toView = item
+        _this.scrollTop = _this.heights[_this.barList.indexOf(item)]
         wx.showToast({
           title: item,
           icon: 'none',
           duration: 500
         })
-      },
-      scroll (e) {
-        console.log('滚动', e)
+      }, 300),
+      scroll: debounce((e) => {
+        console.log('滚动', e.target.scrollTop)
+        _this.activeBar = _this.findIndex(e.target.scrollTop)
+        _this.scrollTop = e.target.scrollTop
+        console.log('字母列表', _this.activeBar)
+        }, 300),
+      findIndex (st) {
+        for (var i = 0; i < this.heights.length; i++) {
+          if (!this.heights[i + 1]) {
+            return this.barList[this.barList.length - 1]
+          }
+          if (this.heights[i] <= st && this.heights[i + 1] > st) {
+            return this.barList[i]
+          }
+        }
       },
       selectItem (item) {
-        this.$store.commit('CITY_SET', item.cname)
+        this.$store.commit('CITY_SET', item.name)
         wx.navigateBack({
           delta: 1
         })
       },
       async inputBlur (e) {
         let keyword = e.target.value
-  
+
         let res = await getCityByQuery({query: keyword})
         if (res.errCode === 'USER_200') {
           console.log('结果', res)
@@ -207,6 +273,8 @@
       padding: 4rpx;
       height: calc(100vh - 220rpx);
       overflow: auto;
+      // border: 1px solid @line;
+      box-shadow: 0 0 2px 1px @line;
       .bar-item {
         width: 40rpx;
         height: 40rpx;

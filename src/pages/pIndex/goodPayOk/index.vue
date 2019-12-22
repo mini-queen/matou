@@ -37,7 +37,11 @@
   
     },
     onUnload () {
-  
+      if (this.flag != 1) {
+        wx.navigateBack({
+                  delta: 2
+                  })// 返回三级页面
+      }
     },
     methods: {
       handle: function () {

@@ -25,17 +25,17 @@
 export default{
   name: 'headser-user',
   props: {
-    userType: {
+    userType: { // 用户类型
       type: String,
       default: 3
     },
-    avatorImg: {
+    avatorImg: { // 头像
       type: String,
       default: ''
     },
     nick: {
       type: String,
-      default: '用户名'
+      default: '用户名' // 昵称
     }
   },
   data () {

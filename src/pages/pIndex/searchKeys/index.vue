@@ -11,24 +11,24 @@
       </div>
       <!-- 热词列表 -->
       <div class="Keys" v-show='flag'>
-        <div class="keysBox">
+        <div :class="moreKeys==false ? 'keysBox-active': 'keysBox'">
           <div class="title">
             <div class="text">最近搜索</div>
             <div class="del" @click="deleteUserSearcHis">
               <img src="../../../../static/images/delect.png" alt />
             </div>
           </div>
-          <div class="keys" :class="more==true ? 'moreActive':'noMore'">
+          <!-- <div class="keys" :class="more==true ? 'moreActive':'noMore'"> -->
+          <div class="keys">
             <div v-for="(item,i) in sKeys" :key="item">
-              <div class="keyitem" @click="searchindex(item.gsKeyword)" v-if="i<7">{{item.gsKeyword}}</div>
+              <div class="keyitem" @click="searchindex(item.gsKeyword)">{{item.gsKeyword}}</div>
             </div>
-            <div :class="more==true? 'hiden':'more'" @click="moreKeys" v-if="sKeys.length>=7">
-              <img src="../../../../static/images/arrow.png" alt />
+            <div class="arrow">
+              <img @click="openKeys(true)" src="../../../../static/images/arrow.png" alt />
             </div>
-            <div v-for="(item,i) in sKeys" :key="item">
-              <div class="keyitem" @click="searchindex(item.gsKeyword)" v-if="i>=7">{{item.gsKeyword}}</div>
-            </div>
+
           </div>
+
         </div>
 
         <div class="keysBox">
@@ -50,14 +50,14 @@
       </div>
       <div class="recommend" v-show="!flag">
         <div class="recommend-items">
-          <div class="recommend-item"  v-for="(shop,index) in shopList" :key="index">
+          <div class="recommend-item" v-for="(shop,index) in shopList" :key="index">
             <div class="recommend-top" @click="goShopDetail(shop.sId)">
               <img :src="baseUrl+shop.sPic" alt class="shop-img" />
               <div class="shop-name">{{shop.sTitle}}</div>
               <div class="distance">距您{{shop.distance}}</div>
               <div class="mask"></div>
             </div>
-            <div class="recommend-bottom" >
+            <div class="recommend-bottom">
               <div class="goods-item center" @click="goGoodDetail(goods.gId)" v-for="(goods,inx) in shop.children" :key="inx" v-if="inx < 2">
                 <img :src="baseUrl+goods.gPic" alt class="goods-img" v-if="goods.gPic" />
                 <img src="https://sniu.2dian.com/xcx/static/matou/defaultgood.png" alt class="goods-img" v-else />
@@ -101,24 +101,24 @@
       <!-- 热词列表 -->
       <div class="Keys" v-show='flag'>
         <!--  -->
-        <div class="keysBox">
+        <div :class="moreKeys==false ? 'keysBox-active': 'keysBox'">
           <div class="title">
             <div class="text">最近搜索</div>
             <div class="del" @click="deleteUserSearcHis">
               <img src="../../../../static/images/delect.png" alt />
             </div>
           </div>
-          <div class="keys" :class="moreActive">
+          <!-- <div class="keys" :class="more==true ? 'moreActive':'noMore'"> -->
+          <div class="keys">
             <div v-for="(item,i) in sKeys" :key="item">
-              <div class="keyitem" @click="searchshop(item.gsKeyword)">{{item.gsKeyword}}</div>
+              <div class="keyitem" @click="searchindex(item.gsKeyword)">{{item.gsKeyword}}</div>
             </div>
-            <!-- <div :class="more==true? 'hiden':'more'" @click="moreKeys" v-if="sKeys.length>=7">
-              <img src="../../../../static/images/arrow.png" alt />
-            </div> -->
-            <!-- <div v-for="(item,i) in sKeys" :key="item">
-              <div class="keyitem" @click="searchshop(item.gsKeyword)" v-if="i>=7">{{item.gsKeyword}}</div>
-            </div> -->
+            <div class="arrow">
+              <img @click="openKeys(true)" src="../../../../static/images/arrow.png" alt />
+            </div>
+
           </div>
+
         </div>
 
         <div class="keysBox">
@@ -146,6 +146,8 @@
 
             <!-- 店铺商城 -->
             <div class="good-item" v-for="(item,index) in hotGoods" :key="index">
+              <img v-if="item.gbSalePlat==0" class="shoptags" src="/static/images/zy.png" alt="">
+              <img v-if="item.gbSalePlat==1" class="shoptags" src="/static/images/sc.png" alt="">
               <image class="good-img" :src="baseUrl + item.gPic" @click="goGoodDetail(item.gId)"></image>
               <div class="good-detail">
                 <!-- <div class="good-name">{{item.gTitle}}</div> -->
@@ -269,18 +271,19 @@ export default {
       noShop: false, // 搜索为空 显示
       baseUrl: this.$baseUrl,
       recommendShop: '', // 搜索为空  推荐店铺
-      shopList: [],
-      encyList: '',
-      searchName: '',
-      hotGoods: [],
+      shopList: [], // 首页搜索店铺列表
+      encyList: '', // 首页搜索文章列表
+      searchName: '', // 搜索关键字
+      hotGoods: [], // 店铺搜索 商品列表
       sKeys: [
 
-      ],
+      ], // 用户 搜索记录关键字
+      moreKeys: true, // 展开关键字
       hKeys: [
 
-      ],
-      more: false,
-      flag: true,
+      ], // 热搜关键字
+      // more: false,
+      flag: true, // 关键字展示 隐藏显示
       latitude: 0.0,
       longitude: 0.0,
       searchType: '', // 0首页搜索 1店铺搜索
@@ -289,9 +292,9 @@ export default {
       tabs: ['店铺自营', '店铺商城'],
       activeTab: 1,
       payIndex: 0,
-      cartList: [],
-      cartInfo: {},
-      categoryData: []
+      // cartList: [], // 购物车列表
+      cartInfo: {} // 购物车列表
+      // categoryData: []
     }
   },
   computed: {
@@ -311,7 +314,7 @@ export default {
     this.getUserSearcHis()
     this.getCartList()
     this.searchType = this.$mp.query.type
-
+    this.moreKeys = !(this.sKeys.length > 8)
     console.log('option.shopId: ' + option.shopId)
     console.log('option.typeId: ' + option.typeId)
     this.shopId = option.shopId
@@ -330,20 +333,23 @@ export default {
     //  console.log(this.hKeys, this.sKeys)
   },
   methods: {
+    // 清空 搜索记录
     async deleteUserSearcHis () {
       var res = await deleteUserSearcHis()
       this.sKeys = ''
       console.log(res)
     },
+    // 是否显示搜索记录
     changeFlag (e) {
       this.noShop = false
       this.recommendShop = ''
       this.flag = !this.flag
       console.log(this.flag)
     },
-    moreKeys () {
-      this.more = !this.more
-    },
+    // moreKeys () {
+    //   this.more = !this.more
+    // },
+    // 获取用户搜索记录
     async getUserSearcHis () {
       var res = await getUserSearcHis()
       this.hKeys = res.result.result.hotSearchList
@@ -389,7 +395,7 @@ export default {
     },
     // 首页的关键字搜索
     async searchindex (keys) {
-       this.noShop = false
+      this.noShop = false
       this.flag = false
       wx.showLoading({
         title: '加载中'
@@ -491,6 +497,7 @@ export default {
         url: '/pages/pIndex/goodDetail/main?id=' + id
       })
     },
+    // 跳转文章详情
     goDetail (item) {
       wx.navigateTo({
         url: '/pages/pEncyclopedia/detail/main?riId=' + item.riId + '&rcId=' + item.rcId
@@ -612,6 +619,10 @@ export default {
       }
       let result = await shopCartVerify(params)
       return result
+    },
+    // 收起用户搜索记录关键字
+    openKeys () {
+      this.moreKeys = !this.moreKeys
     }
 
   }
@@ -749,7 +760,8 @@ page {
     border-top: 1px solid 1px solid rgba(229, 229, 229, 1);
     width: 100%;
     box-sizing: border-box;
-    .keysBox {
+    .keysBox-active {
+      //展开
       margin-top: 56rpx;
       width: 100%;
       .title {
@@ -773,6 +785,7 @@ page {
         }
       }
       .keys {
+        position: relative;
         margin-top: 30rpx;
         width: 100%;
         padding: 0 32rpx;
@@ -781,6 +794,11 @@ page {
         flex-direction: row;
         justify-content: flex-start;
         flex-wrap: wrap;
+        overflow: hidden; //超出部分影藏
+        -webkit-line-clamp: 2; //限制行数
+        text-overflow: ellipsis; //超过部分用省略号显示
+        // display: -webkit-box; //盒子模型
+        // -webkit-box-orient: vertical; //从顶部向底部垂直布置子元素
         .keyitem {
           margin: 15rpx;
           height: 60rpx;
@@ -809,7 +827,119 @@ page {
           border-radius: 60rpx;
           background: rgba(242, 242, 242, 1);
           color: rgba(120, 120, 120, 1);
+        }
+        .arrow {
+                   margin: 15rpx;
+          height: 60rpx;
+          padding: 0 16rpx;
+          text-align: center;
+          line-height: 60rpx;
+          box-sizing: border-box;
+          font-size: 13px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          border-radius: 30rpx;
+          background: rgba(242, 242, 242, 1);
+          color: rgba(120, 120, 120, 1);
+          img:last-child {
+            vertical-align: middle;
+            transform: rotate(-90deg);
+            width: 17rpx;
+            height: 30rpx;
+          }
+        }
+      }
+    }
+    .keysBox {
+      //缩略
+      margin-top: 56rpx;
+      width: 100%;
+      height: 130px;
+      overflow: hidden; //超出部分影藏
+
+      .title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 32rpx;
+        box-sizing: border-box;
+        margin-bottom: 5px;
+        .text {
+          font-size: 16px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: rgba(51, 51, 51, 1);
+        }
+        .del {
           img {
+            width: 32rpx;
+            height: 30rpx;
+          }
+        }
+      }
+      .keys {
+        position: relative;
+        margin-top: 30rpx;
+        width: 100%;
+        padding: 0 32rpx;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        overflow: hidden; //超出部分影藏
+        -webkit-line-clamp: 2; //限制行数
+        text-overflow: ellipsis; //超过部分用省略号显示
+        // display: -webkit-box; //盒子模型
+        // -webkit-box-orient: vertical; //从顶部向底部垂直布置子元素
+        .keyitem {
+          margin: 15rpx;
+          height: 60rpx;
+          padding: 0 16rpx;
+          text-align: center;
+          line-height: 60rpx;
+          box-sizing: border-box;
+          font-size: 13px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          border-radius: 30rpx;
+          background: rgba(242, 242, 242, 1);
+          color: rgba(120, 120, 120, 1);
+        }
+        .more {
+          margin: 15rpx;
+          height: 60rpx;
+          width: 60rpx;
+          padding: 0 16rpx;
+          text-align: center;
+          line-height: 60rpx;
+          box-sizing: border-box;
+          font-size: 13px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          border-radius: 60rpx;
+          background: rgba(242, 242, 242, 1);
+          color: rgba(120, 120, 120, 1);
+        }
+        .arrow {
+                    margin: 15rpx;
+          height: 60rpx;
+          padding: 0 16rpx;
+          text-align: center;
+          line-height: 60rpx;
+          box-sizing: border-box;
+          font-size: 13px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          border-radius: 30rpx;
+          background: rgba(242, 242, 242, 1);
+          color: rgba(120, 120, 120, 1);
+          position: absolute;
+         top: 90rpx;
+right: 15rpx;
+
+
+          img:last-child {
             vertical-align: middle;
             transform: rotate(90deg);
             width: 17rpx;
@@ -833,7 +963,9 @@ page {
       margin-bottom: 22rpx;
       flex: 0 0 calc(50% - 12rpx);
       &:nth-child(odd) {
-        margin-right: 20rpx;
+        // margin-right: 20rpx;
+        margin-left: 25rpx;
+
       }
       .recommend-top {
         position: relative;
@@ -1021,12 +1153,20 @@ page {
     box-sizing: border-box;
     width: 100%;
     .good-item {
+      position: relative;
       box-sizing: border-box;
       background: #fff;
       width: 334rpx;
       border: 2rpx solid @line;
       margin-bottom: 20rpx;
       border-radius: 10rpx;
+      .shoptags {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 66rpx;
+        height: 32rpx;
+      }
       .good-img {
         width: 100%;
         height: 334rpx;

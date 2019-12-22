@@ -100,6 +100,7 @@ export default {
       console.log(item.ccName, 'ccName')
       console.log(item, 'item: ')
       wx.setStorageSync('CURRENT_ADDRESS', item.ccName)
+      wx.setStorageSync('CURRENT_CITY', item.cName)
       wx.setStorageSync('LONGITUDE', item.maLat)
       wx.setStorageSync('LATITUDE', item.maLon)
       wx.setStorageSync('isRefresh', 1)

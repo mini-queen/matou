@@ -1,22 +1,19 @@
 <template>
   <div class="withdraw">
-    <div class="amount center-left">
-      当前账户可取金额为：{{totalMoney}}元
-    </div>
     <div class="takeout">
-      <div class="tip">
-        取出金额(元)
-      </div>
       <div class="takeout-bottom flex">
         <div class="take-money  center-left">
-          <span class="unit"> </span>
+          <span class="unit"> ¥ </span>
           <input type="text" :value="tackMoney" @change="changeMoney" placeholder="请输入提现金额">
         </div>
         <div class="tip" @click="getAll">全部取出</div>
       </div>
     </div>
+        <div class="amount center-left">
+      可提现码粒 : {{totalMoney}} <span class="tips">{{totalMoney}}元</span> 
+    </div>
     <div class="withdraw-count center-right">
-      本日剩余提现次数：0
+      本日剩余提现次数：{{surplus}}
     </div>
     <div class="withdraw-ways">
       <div class="title">提现方式</div>
@@ -90,20 +87,21 @@ import { applyInit, doApply } from '@/utils/api'
   export default {
     data () {
       return {
-        isShow: false,
-        bankList: [],
-        tackMoney: '',
-        totalMoney: 0,
-        userName: '',
-        bank: '',
-        selectedBank: '',
-        selectBankCode: '',
-        account: '',
-        phone: '',
-        dayLimit: '',
-        downLimit: '',
-        monthLimit: '',
-        upLimit: ''
+        // isShow: false,
+        bankList: [], // 银行列表
+        tackMoney: '', // 全部提现
+        totalMoney: 0, // 所有余额
+        userName: '', // 用户名
+        bank: '', // 银行名
+        selectedBank: '', // 选择银行
+        selectBankCode: '', // 对应标识
+        account: '', // 收款账号
+        phone: '', // 手机号
+        dayLimit: '', // 每日限制
+        downLimit: '', //
+        monthLimit: '', // 月次数
+        upLimit: '', //
+        surplus: 0 // 本日剩余次数
 
       }
     },
@@ -167,10 +165,10 @@ import { applyInit, doApply } from '@/utils/api'
          this.bank = e.mp.detail.value
       },
 
-      test () {
-         console.log('phone: ' + this.phone)
-         console.log('userName: ' + this.userName)
-      },
+      // test () {
+      //    console.log('phone: ' + this.phone)
+      //    console.log('userName: ' + this.userName)
+      // },
       async withdraw () { // 申请取出
           console.log(this.userName)
           let param = {
@@ -222,7 +220,7 @@ import { applyInit, doApply } from '@/utils/api'
           }
           console.log('返回值', res)
       },
-
+// 数据初始化
       async applyInit () {
           let res = await applyInit({})
           if (res.errCode === 'USER_200') {
@@ -232,6 +230,7 @@ import { applyInit, doApply } from '@/utils/api'
             if (result) {
               // this.tackMoney = result.amountLimit
               this.totalMoney = result.amountLimit
+              this.surplus = result.surplus
               this.dayLimit = result.dayLimit
               this.downLimit = result.downLimit
               this.monthLimit = result.monthLimit
@@ -254,6 +253,13 @@ import { applyInit, doApply } from '@/utils/api'
 </script>
 
 <style lang="less" scoped>
+.tips{
+  padding: 2rpx 12px;
+  background-color: #FCEBCC;
+  color: #FE6A00;
+  border-radius: 25rpx;
+  margin-left: 12rpx;
+}
 .withdraw {
   color: @primary;
   background-color: @color-bg;
@@ -265,6 +271,7 @@ import { applyInit, doApply } from '@/utils/api'
     border-bottom: 1px solid @line;
     font-size: 28rpx;
     height: 106rpx;
+    color: #999999;
   }
   .takeout {
     background: @color-white;
@@ -273,7 +280,10 @@ import { applyInit, doApply } from '@/utils/api'
       font-size: 30rpx;
     }
     .takeout-bottom {
-      margin-top: 50rpx;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      // margin-top: 50rpx;
       .take-money {
         display: flex;
         .unit {

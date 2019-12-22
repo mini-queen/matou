@@ -77,6 +77,7 @@ export default {
     return {
       member: '',
       shopInfo: {},
+      myPhone: '', // 用户手机号
       memberType: '',
       mPartnerExpiry: '',
       PriceVipPay: [// 开通付费时间
@@ -129,14 +130,18 @@ export default {
   },
   computed: {
   },
-  mounted () {
+  onShow () {
     this.getMyAccount()
+  },
+  mounted () {
+
   },
   onUnload () {
     this.activeIndex = 0
     this.payMoney = 333
     this.shopName = ''
     this.agreed = false
+    this.myPhone = ''
   },
   methods: {
     agreement () { // 跳转协议
@@ -149,6 +154,7 @@ export default {
       this.member = result.result.result.member
       this.shopInfo = result.result.result.shop
       this.shopName = result.result.result.shop.sTitle
+      this.myPhone = result.result.result.member.mphone
       // this.sAnnuityExpiry =result.result.result
       console.log(result.result.result.shop, 'shop')
       // this.member.mVipFlag = 0 // 测试数据   0非会员
@@ -156,11 +162,20 @@ export default {
       if (this.member.mVipFlag == 0 && this.member.mPartnerFlag == 0) {
         this.memberType = 'ordinary'
         var now = new Date()
+        var addYear = 0
+        if (this.activeIndex == 0) {
+           addYear = 3
+        } else if (this.activeIndex == 1) {
+           addYear = 2
+        } else if (this.activeIndex == 2) {
+           addYear = 1
+        }
+        // 转换时间戳
         var year = now.getFullYear()
         var month = now.getMonth() + 1
         var date = now.getDate()
         this.member.mPartnerExpiry = year + '-' + month + '-' + date
-        let newYear = Number(year) + 3
+        let newYear = Number(year) + addYear
         this.mPartnerExpiry = newYear + this.member.mPartnerExpiry.slice(4)
       } else if (this.member.mPartnerFlag == 1) {
         this.memberType = 'Partner'
@@ -191,7 +206,7 @@ export default {
       }
       console.log('memberType: ', this.memberType)
     },
-
+    //  获取合伙人的附加信息 对应店铺
     async getPartnerInfo () {
       var result = await getMyAccount()
 
@@ -201,6 +216,7 @@ export default {
       this.sAnnuityExpiry = res.result.result.sAnnuityExpiry
       console.log(res)
     },
+    // 选择 续费时长
     getActiveIndex (e) {
       this.VipPay = this.PriceVipPay[e]
       this.payMoney = this.payList[e].num
@@ -232,6 +248,13 @@ export default {
       }
     },
     payForPartner () {
+      if (!this.myPhone) { // 如果没有绑定手机号跳转到绑定手机号页面
+            wx.navigateTo({
+                url: '/pages/pMe/bindPhone/main'
+            })
+            return
+        }
+
       if (this.agree()) {
         if (!this.shopId) {
           this.shopId = this.shopInfo.sId

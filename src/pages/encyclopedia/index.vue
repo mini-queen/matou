@@ -6,7 +6,7 @@
         <div class="TitleContent">
           <div class="title">{{item.title}}</div>
           <div class="time">
-            <span>{{item.pubDateStr}}</span>
+            <!-- <span>{{item.pubDateStr}}</span> -->
             <!-- <span>{{item.readTimes || 0}}<span>阅读</span></span> -->
             <div><span class="tags" v-if="item.isOriginal == '1'">原创</span></div>
           </div>
@@ -32,8 +32,8 @@
         pageNo: 1,
         pageCount: 0,
         currentPage: -1,
-        encyList: [],
-        hasMore: false
+        encyList: [], // 文章列表
+        hasMore: false // 是否有更多数据
       }
     },
     computed: {
@@ -64,6 +64,7 @@
   
     },
     methods: {
+      // 获取文章列表
       async getList (init = false) {
         let param = {
           page: this.pageNo,
@@ -87,6 +88,7 @@
           }
         }
       },
+      // 跳转文章详情
       goDetail (item) {
         wx.navigateTo({
           url: '/pages/pEncyclopedia/detail/main?riId=' + item.riId + '&rcId=' + item.rcId

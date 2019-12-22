@@ -74,12 +74,12 @@
           self.system = system.system
 
           let platformReg = /ios/i
-          if (platformReg.test(system.platform)) {
-            self.titleBarHeight = 44
-          } else {
-            self.titleBarHeight = 48
-          }
-
+          // if (platformReg.test(system.platform)) {
+          //   self.titleBarHeight = 44
+          // } else {
+          //   self.titleBarHeight = 48
+          // }
+          self.titleBarHeight = ((wx.getMenuButtonBoundingClientRect().top - wx.getSystemInfoSync().statusBarHeight) * 2) + wx.getMenuButtonBoundingClientRect().height
           self.navBarHeight = self.statusBarHeight + self.titleBarHeight
         }
       })

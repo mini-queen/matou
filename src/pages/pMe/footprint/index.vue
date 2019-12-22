@@ -100,10 +100,10 @@
         latitude: '0.0',
         pageSize: 10,
         pageNo: 1,
-        data: '',
-        mtsIds: '',
-        checkedAll: false,
-        allLen: 0
+        data: '', // 足迹列表
+        mtsIds: '', // 用户ID
+        checkedAll: false, // 全选
+        allLen: 0 // 足迹长度
       }
     },
     computed: {
@@ -128,10 +128,12 @@
        this.allLen = 0
     },
     methods: {
+      // 选择足迹
       changeItemCheck (item) {
         item.isChecked = !item.isChecked
         this.$forceUpdate()
       },
+      // 全选足迹
       checkedAllHandler (status) {
         let ids = []
         this.checkedAll = !status
@@ -154,12 +156,14 @@
           })
         }
       },
+      // 删除足迹
       async delMemberTrackShop () {
         var mtsIds = this.mtsIds
         var res = await delMemberTrackShop({mtsIds: mtsIds})
          this.getfootPrint()
         console.log(res)
       },
+      // 判断全选按钮状态
       checkstatus (e) {
         var arr = e.mp.detail.value
         this.checkedAll = arr.length === this.allLen
@@ -174,6 +178,7 @@
               url: '/pages/pIndex/shopDetail/main?shopId=' + id
           })
       },
+      // 获取足迹列表
      async getfootPrint () {
        var parmas = {
         'longitude': this.longitude,

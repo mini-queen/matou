@@ -47,13 +47,13 @@
         pageNo: 1,
         pageCount: 0,
         currentPage: -1,
-        purchaseList: [],
-        hasMore: false,
-        statusMap: {
+        purchaseList: [], // 订单列表
+        hasMore: false, // 是否有更多数据加载
+        statusMap: { // 活动状态
           100: '热销',
           200: '即将开始'
         },
-        classMap: {
+        classMap: { // 活动状态码
           100: 'hot',
           200: 'pending'
         }
@@ -69,6 +69,7 @@
       this.getList()
     },
     onUnload () {
+      // 清除定时器
       clearInterval(this.timer)
     },
     onPullDownRefresh () {
@@ -87,6 +88,7 @@
       }
     },
     methods: {
+      // 获取零元购列表
       async getList (init = false) {
         let param = {
           curr: this.pageNo,
@@ -116,6 +118,7 @@
           }
         }
       },
+      //  倒计时
       reciprocal (items) {
         if (this.timer) clearInterval(this.timer)
         this.timer = setInterval(() => {
@@ -154,6 +157,7 @@
         }
         this.$forceUpdate()
       },
+      // 跳转详情
       goDetail (item) {
         console.log('跳转详情', item)
         if (item.ogCurrState != 100 && item.ogCurrState != 200) { return }

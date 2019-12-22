@@ -72,6 +72,7 @@ export default {
       VipPay: 'MEMBER_VIP_YEAR3_PRICE', // 用户选择的结果
       mVipExpiry: '',
       agreed: false,
+      myPhone: '', // 用户手机号
       member: '',
       activeIndex: 0,
       qyList: [{
@@ -100,8 +101,11 @@ export default {
   },
   computed: {
   },
-  mounted () {
+  onShow () {
     this.getMyAccount()
+  },
+  mounted () {
+
   },
   onUnload () {
     this.activeIndex = 0
@@ -109,6 +113,7 @@ export default {
     this.VipPay = 'MEMBER_VIP_YEAR3_PRICE'
     this.mVipExpiry = ''
     this.agreed = false
+    this.myPhone = ''
   },
   methods: {
     agreement () { // 跳转协议
@@ -119,17 +124,26 @@ export default {
     async getMyAccount () {
         var result = await getMyAccount()
         this.member = result.result.result.member
+        this.myPhone = result.result.result.member.mphone
         // console.log(result.result.result.member)
         // this.member.mVipFlag = 0 // 测试数据   0非会员
         // this.member.mPartnerFlag = 0 // 测试数据 0 非合伙人
         if (this.member.mVipFlag == 0 && this.member.mPartnerFlag == 0) {
           this.memberType = 'ordinary'
           var now = new Date()
+          var addYear = 0
+          if (this.activeIndex == 0) {
+            addYear = 3
+          } else if (this.activeIndex == 1) {
+            addYear = 2
+          } else if (this.activeIndex == 2) {
+            addYear = 1
+          }
           var year = now.getFullYear()
           var month = now.getMonth() + 1
           var date = now.getDate()
           this.member.mVipExpiry = year + '-' + month + '-' + date
-          let newYear = Number(year) + 3
+          let newYear = Number(year) + addYear
           this.mVipExpiry = newYear + this.member.mVipExpiry.slice(4)
         } else if (this.member.mVipFlag == 1) {
           this.memberType = 'vip'
@@ -171,6 +185,12 @@ export default {
      }
    },
    payForVip () {
+     if (!this.myPhone) { // 如果没有绑定手机号跳转到绑定手机号页面
+            wx.navigateTo({
+                url: '/pages/pMe/bindPhone/main'
+            })
+            return
+        }
      if (this.agree()) {
       // 如果勾选 跳转支付
       wx.navigateTo({url: `/pages/pIndex/goodPay/main?payType=${this.VipPay}&payFlag=vipPay&payMoney=${this.payMoney}`})

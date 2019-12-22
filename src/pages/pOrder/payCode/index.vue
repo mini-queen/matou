@@ -49,11 +49,11 @@ const QRCode = require('../../../../lib/weapp-qrcode.min.js')
           paystr: '微信支付',
           showPic: '/static/images/weixinpay.png',
           show: false,
-          memberInfo: {},
+          memberInfo: {}, // 用户信息
            myMali: 0,
           fkm: '',
-          state: '',
-          pay_way: '',
+          state: '', // 支付状态
+          pay_way: '', // 支付方式
           timer: null,
           isStart: true, // 是否开始轮询检查
           payMode: [

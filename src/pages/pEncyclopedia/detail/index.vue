@@ -1,9 +1,9 @@
 <template>
-<div class="container">
+<div class="container" >
     <div class="title">
       {{readInfo.title}}
     </div> 
-    <div class="tip-wrap">
+    <div class="tip-wrap" >
       <span>{{readInfo.pubDateStr}}</span>
       <!-- <span class="read-num">{{readInfo.readTimes || 0}}阅读</span> -->
     </div>
@@ -25,9 +25,10 @@
       <p class="section">
         其次，对于已经造成动脉硬化的病人，即使吃遍所有偏方，用尽洪荒之力也不可能将其软化。即便是一些还没有钙化的斑块，也只有极少数人能够通过改善生活方式和服用他汀类药物，使斑块回缩。可以说，能稳定住不让其发展，就已经做的非常好了。
       </p>
-    </div> -->
-    <div class="content">
+    </div> --> 
+    <div class="content" :class="token? '' : 'nologin'">
       <wxParse :content="readInfo.detail"/>
+      <div v-if="token==''" @click="loginIn" class='btn'><img src="https://sniu.2dian.com/xcx/static/matou/hongbao2.png" alt=""> 继续阅读领红包<img src="/static/images/arrow_down.png" alt=""></div>
     </div>
     <div class="operate flex">
         <div @click="follow" v-if="isFollow ==0">
@@ -37,7 +38,7 @@
           <image src="/static/images/shoucang_selected.png"></image><span>收藏</span>
         </div>
         <div @click="like" v-if="isLike==0">
-          <image src="/static/images/tuijian.png"></image><span>点赞</span>
+          <image src="https://sniu.2dian.com/xcx/static/matou/zanno.png"></image><span>点赞</span>
         </div>
           <div @click="like" v-else>
           <image src="/static/images/dianzan_selected.png"></image><span>点赞</span>
@@ -111,31 +112,33 @@ import wxParse from 'mpvue-wxparse'
  export default {
    data () {
      return {
-       msg: '',
+       token: '',
+      //  msg: '',
        publicShare: this.$publicShare,
        isShowBottomShop: false, // 是否显示底部商家
-       title: ' 健康科普：喝醋能软化血管这些谣言，你中招了吗？',
-       release_time: '2019-09-10',
-       reading_num: 1000,
-       showLoginDialog: false,
-       endTimeFlag: false,
+       title: ' 健康科普：喝醋能软化血管这些谣言，你中招了吗？', // 标题
+       release_time: '2019-09-10', // 文章时间
+       reading_num: 1000, // 阅读时长
+       showLoginDialog: false, // 显示登录提示
+       endTimeFlag: false, // 是否到达阅读限时
        baseUrl: this.$baseUrl,
-       smallexpireTime: 15,
-       riId: '',
-       readInfo: {},
-       shopInfo: {},
+       smallexpireTime: 15, // 计时器 阅读时长
+       riId: '', // 红包ID
+       readInfo: {}, // 文章相关
+       shopInfo: {}, // 推荐店铺相关
        rmrId: '',
        isBottom: false,
-       time: -1,
-       showRed: false,
-       showRedGet: false,
-       redMoney: 0,
-       isFollow: 0,
-       isLike: 0,
-       isVip: false,
-       memberInfo: {},
-       isCanGetPackage: false,
-       showGotoVip: false,
+      //  time: -1,
+       showRed: false, // 显示红包
+       showRedGet: false, // 是否获得红包
+       redMoney: 0, // 红包金额
+       isFollow: 0, // 是否收藏
+       isLike: 0, // 是否点赞
+       isVip: false, // 是否vip
+       memberInfo: {}, // 用户信息
+       isCanGetPackage: false, // 是否有可以获得红包的资格
+       showGotoVip: false, // 是否显示加入vip
+       myPhone: '', // 用户手机号
        isCanShowTips: false // 是否显示提示
      }
    },
@@ -154,6 +157,7 @@ import wxParse from 'mpvue-wxparse'
      this.getData(riId, rcId)
 
      let token = wx.getStorageSync('DIAN_TOKEN')
+     this.token = token
      if (token) {
           this.encyRedFinish(riId)
      }
@@ -166,11 +170,14 @@ import wxParse from 'mpvue-wxparse'
      this.showRedGet = false
      this.showRed = false
      this.showGotoVip = false
+     this.token = ''
+     this.myPhone = ''
    },
    onShow () {
+     this.getMyAccount() //  获取个人信息来 判断当前用户是否绑定了手机号
      this.isCanShowTips = true
      this.endTimeFlag = false
-     this.showRedGet = false
+     // this.showRedGet = false
      this.showRed = false
      let token = wx.getStorageSync('DIAN_TOKEN')
      let userInfo = wx.getStorageSync('userInfo')
@@ -181,6 +188,7 @@ import wxParse from 'mpvue-wxparse'
      } else {
        this.showLoginDialog = false
      }
+     this.token = token
    },
    onReachBottom () {
       // this.showRedGet = true
@@ -197,6 +205,7 @@ import wxParse from 'mpvue-wxparse'
       //   console.log('过期了时间')
       // }
    },
+   // 分享按钮
    onShareAppMessage: function (res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮
@@ -209,17 +218,21 @@ import wxParse from 'mpvue-wxparse'
       }
     },
    methods: {
+     // 跳转vip
      goVip () {
        console.log(1)
        wx.navigateTo({
           url: '/pages/pEncyclopedia/member/joinVip/main'
        })
      },
-
+// 获得用户信息
     async getMyAccount () {
+      let token = wx.getStorageSync('DIAN_TOKEN')
+      if (token) {
         var result = await getMyAccount()
-        this.memberInfo = result.result.result.member
-       },
+        this.myPhone = result.result.result.member.mphone
+      }
+    },
      // 登录
      loginIn () {
        wx.navigateTo({
@@ -274,6 +287,12 @@ import wxParse from 'mpvue-wxparse'
      async encyRedGet () { // 领取红包接口
         let param = {
           rmrId: this.rmrId
+        }
+        if (!this.myPhone) { // 如果没有绑定手机号跳转到绑定手机号页面
+            wx.navigateTo({
+                url: '/pages/pMe/bindPhone/main'
+            })
+            return
         }
         let res = await encyRedGet(param)
         console.log(12, res)
@@ -348,7 +367,7 @@ import wxParse from 'mpvue-wxparse'
           }
         }
      },
-     timeDown () {
+     timeDown () { // 阅读倒计时
         // const endTime = this.readInfo.expireTime
         // const nowTime = new Date()
         // console.log('endTime: ' + endTime)
@@ -374,6 +393,7 @@ import wxParse from 'mpvue-wxparse'
             }
         }, 1000)
     },
+    // 获取文章详情
      async getData (riId, rcId) {
        console.log('getData riId : ' + riId)
         let param = {
@@ -429,6 +449,33 @@ import wxParse from 'mpvue-wxparse'
 </script>
 <style lang="less" scoped>
 @import url("~mpvue-wxparse/src/wxParse.css");
+  .nologin{
+    max-height: 130vh;
+    overflow: hidden;
+    // margin-bottom: 60px;
+  }
+  .btn{
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    background-color: rgba(247, 247, 247,.99);
+    border: 1rpx solid #E5E5E5;
+    line-height: 100rpx;
+    height: 100rpx;
+    width: 690rpx;
+    left: 30rpx;
+    img{
+      width: 57rpx;
+      height: 57rpx;
+      vertical-align: middle;
+      margin-right: 45rpx;
+    }
+    img:last-child{
+      margin-left:20rpx; 
+      width: 30rpx;
+      height: 17rpx;
+    }
+  }
 .btnShare{
   background-color: #fff;
   // color: #fff;
@@ -511,7 +558,9 @@ button{
       padding-left:47rpx;
     }
   }
+
   .content{
+    position: relative;
     padding:0 30rpx;
     .section{
       margin-top:40rpx;

@@ -113,7 +113,7 @@ export default {
   components: { popup, navigationBar, tooltip },
   data () {
     return {
-      searchKey: '',
+      searchKey: '', // 搜索关键字
       goodName: null,
       shopId: 10002059, // 当前店铺id
       latitude: 33.327474, // 当前经纬度

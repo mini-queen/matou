@@ -90,11 +90,8 @@
   export default {
     data () {
       return {
-              layerShow: false,
-        maName: '',
-        maPhone: '',
-        maLabel: '0',
-        deatailAddr: '',
+      layerShow: false, // 弹层显示
+        deatailAddr: '', // 地址
         region: [],
         address: '',
         isShow: false,
@@ -109,9 +106,9 @@
           { id: 2, name: '地区', levelName: 'area', level: 3 },
           { id: 3, name: '乡镇', levelName: 'country', level: 4 }
         ], // 地址相关结束
-        msg: false,
-        mobile: '',
-        IndustryId: 0,
+        msg: false, // 提示信息
+        mobile: '', // 申请手机号
+        IndustryId: 0, // 申请店铺类型
         IndustryStr: '请选择',
         firstClick: false,
         Industry: [
@@ -320,13 +317,14 @@
        handleClose: function (e) {
       this.msg = e
     },
-  
+  // 选择类型
     PickerChange (e) {
       this.firstClick = true
       this.IndustryId = e.mp.detail.value
       this.IndustryStr = this.Industry[e.mp.detail.value].name
       console.log(e.mp)
     },
+    // 提交
  doapplysShops: async function () {
        var parmas = {address: this.address, mobile: this.mobile, sIndustryId: this.IndustryId}
       var result = await applysShops(parmas)

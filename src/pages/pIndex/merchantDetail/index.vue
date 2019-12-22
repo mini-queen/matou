@@ -52,10 +52,10 @@ export default{
     data () {
         return {
             baseSrc: this.$baseUrl,
-            shopId: '',
-            shopInfo: '',
-            shopPic: '',
-            shopLabel: ''
+            shopId: '', // 店铺ID
+            shopInfo: '', // 店铺信息
+            shopPic: '', // 展示图片
+            shopLabel: '' // 标签
             // shopName: '鑫哲的网络小店',
             // shopLabels: ['物美价廉', '土产日用', '欢迎光临'],
             // shopAddress: '江苏省盐城市亭湖区鹏润花园9幢116号、117号 江苏省盐城市亭湖区'
@@ -68,7 +68,7 @@ export default{
       wxParse
     },
     methods: {
-       async getShopDdetail () {
+       async getShopDdetail () { // 获取店铺信息
           var shopId = this.shopId
            var result = await getShopDdetailAboutGoods({shopId})
            this.shopInfo = result.result.result.shop

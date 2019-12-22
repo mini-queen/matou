@@ -52,11 +52,11 @@
   export default {
     data () {
       return {
-        show: true,
+        // show: true,
         typeList: [], // 类型列表
         mali: '', // 码粒
         bean: '', // 待入帐
-        PriceDetail: [],
+        PriceDetail: [], // 交易记录
         page: 1,
         pageSize: 40,
         dictValue: '', // 类型值

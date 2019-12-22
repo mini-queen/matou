@@ -62,7 +62,6 @@
         "goodPayOk/main",
         "orderList/main",
         "valueDetail/main",
-        "valueUnPay/main",
         "valueOrder/main",
         "shopDetail/main",
         "merchantDetail/main",
@@ -83,7 +82,6 @@
         "citySelect/main",
         "addAddress/main",
         "addressList/main",
-        "selectAddress/main",
         "Coupon/main",
         "CouponList/main",
         "forgetPassword/main",
@@ -108,7 +106,6 @@
         "F2FExtension/main",
         "systemUpgradeHF/main",
         "pageMiss/main",
-        "forTestPass/main",
         "updatepage/main",
         "loginPhone/main",
         "footprint/main",
@@ -134,7 +131,6 @@
         "shopListForpay/main",
         "refund/main",
         "refundMenu/main",
-        "searchResult/main",
         "payCode/main",
         "maLi/main"
       ]

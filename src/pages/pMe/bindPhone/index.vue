@@ -63,7 +63,10 @@ export default {
   computed: {},
   components: {},
   mounted () {},
-  onUnload () {},
+  onUnload () {
+    this.mobile = ''
+    this.m_code = ''
+  },
   methods: {
     async getCode () {
       // 验证码倒计时

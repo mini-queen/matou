@@ -11,7 +11,6 @@
     <a href="/pages/pIndex/orderDetail/main" class="more-link">订单详情</a> 
     <a href="/pages/pIndex/valueDetail/main" class="more-link">超值商品详情</a>
     <a href="/pages/pIndex/valueOrder/main" class="more-link">超值提交订单</a>
-    <a href="/pages/pIndex/valueUnPay/main" class="more-link">超值订单待支付</a>
     <a href="/pages/member/detail/main" class="more-link">会员中心</a>
     <a href="/pages/pEncyclopedia/member/joinVip/main" class="more-link">开通vip会员</a>
     <a href="/pages/pEncyclopedia/member/joinCopartner/main" class="more-link">开通店铺合伙人</a>

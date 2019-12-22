@@ -94,18 +94,18 @@
         showtime: '', // 显示到期时间
         msg: '会员中心',
         memberType: 'partner', // vip-VIP会员 partner-合伙人  ordinary-普通用户
-        diamondList: [
+        diamondList: [ // 加入会员 推广文案
           { name: '折价购买0元购好物；' },
           { name: '快捷购买店铺及平台海量优质商品；' },
           { name: '用户专享活动：购买指定商品得奖励； ' },
           { name: '购买店铺商品，免配送费送到家；' }
         ],
-        collarList: [
+        collarList: [ // 加入会员 推广文案
           { name: '浏览生活百科拆红包；' },
           { name: '邀请购买平台0元购商品得奖励；' },
           { name: '购买外卖商品及云店商品单单可得奖励；' }
         ],
-        cupList: [
+        cupList: [ // 加入会员 推广文案
           { name: '直邀VIP会员按比例享会员费分成；' },
           { name: '邀请好友下单成功，单单可得邀请奖励；' }
         ]
@@ -141,6 +141,7 @@
       this.memberType = ''
     },
     methods: {
+      // 获取用户信息
       async getMyAccount () {
         var result = await getMyAccount()
         this.member = result.result.result.member

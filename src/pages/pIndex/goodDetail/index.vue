@@ -14,7 +14,7 @@
     </div>
     <div class="section-title">
       <div class="flex">
-        <div class="name">{{name}}111</div>
+        <div class="name">{{name}}</div>
         <div class="share flex" @click="share">
           <img class="share-img" src="/static/images/fenxiang.png" alt="">
           <span>分享</span>
@@ -209,15 +209,15 @@
         baseUrl3: this.$baseUrl3,
         shareUrlServer: this.$sharePic,
         isShow: false,
-        msg: '代销商品详情',
-        name: '',
-        saleNum: 0,
-        mPrice: 0,
-        price: 0,
+        // msg: '代销商品详情',
+        name: '', // 分享 店铺名
+        // saleNum: 0,
+        mPrice: 0, // 显示价格
+        price: 0, // 原价
         goodId: 0, // 商品ID
-        awardPrice: 0,
-        amount: 0,
-        originAmount: 0,
+        // awardPrice: 0,
+        // amount: 0,
+        // originAmount: 0,
         goodInfo: {}, // 商品基本信息
         bannerList: [], // 轮播图
         ShopRate: 0, // 购物奖励
@@ -228,30 +228,36 @@
         bgImg: '',
         imagePath: '',
         currentImg: '',
-        erweimaImg: '',
-        canvasHidden: false,
-        gbSalePlat: 0,
-        cartInfo: {},
+        erweimaImg: '', // 二维码
+        canvasHidden: false, // 是否隐藏分享海报
+        gbSalePlat: 0, // 0自提 1配送
+        cartInfo: {}, // 购物车
         showCart: false,
-        current: 1,
-        cartNum: 0,
-        limtNum: 2,
-        unitNum: 9.9,
-        unitOrgNum: 12.6,
-        count: 1,
-        shopDetail: '',
-        linePriceDetail: '',
-        priceDetail: '',
-        screenWidth: 375,
-        screenHeight: 667,
-        shareUrl: '',
-        isShowVip: true
+        current: 1, // 图片页码
+        cartNum: 0, // 购物车 商品数
+        limtNum: 2, // 限购数
+        unitNum: 9.9, // 邀请价格
+        unitOrgNum: 12.6, // 价格
+        count: 1, // 单个商品数量
+        shopDetail: '', // 店铺详情
+        linePriceDetail: '', // 划线价
+        priceDetail: '', // 未划线价
+        screenWidth: 375, // 海报W
+        screenHeight: 667, // 海报H
+        shareUrl: '', // 分享链接
+        isShowVip: false // 是否显示升级VIP
       }
     },
     computed: {
-      bannerNum () {
+      bannerNum () { // 轮播图总数
         return this.bannerList.length
       }
+    },
+    onShow () {
+      let token = wx.getStorageSync('DIAN_TOKEN')
+        if (!token) {
+          this.isShowVip = true
+        }
     },
     onLoad (option) {
       console.log(option)
@@ -284,6 +290,7 @@
       })
     },
     onUnload () {
+       this.current = 1
       this.showCart = false
       this.cartNum = 0
       this.canvasHidden = false
@@ -293,11 +300,17 @@
       this.name = ''
       this.saleNum = 0
       this.mPrice = 0
+      this.price = 0
       this.goodId = 0
       this.awardPrice = 0
       this.amount = 0
       this.originAmount = 0
-      this.isShowVip = true
+      this.isShowVip = false
+      this.goodInfo = {} // 商品基本信息
+      this.bannerList = [] // 轮播图
+      this.ShopRate = 0 // 购物奖励
+      this.ShopRate = 0
+      this.ShopCommission = 0
     },
     onShareAppMessage: function (res) {
       if (res.from === 'button') {
@@ -314,8 +327,8 @@
         var result = await getMyAccount()
         this.mPartnerFlag = result.result.result.member.mPartnerFlag
         this.mVipFlag = result.result.result.member.mVipFlag
-        if (this.mPartnerFlag == 1 || this.mVipFlag == 1) {
-          this.isShowVip = false
+        if (this.mPartnerFlag != 1 && this.mVipFlag != 1) {
+          this.isShowVip = true
         }
       },
 
@@ -327,7 +340,7 @@
         console.log(this.shareUrl, 'erweima')
       },
 
-      async getGoodDetailInfo () { // 获取详情
+      async getGoodDetailInfo () { // 获取商品详情
         let data = await getGoodsDetail({salePlat: 1, gId: this.goodId})
         console.log('返回值', data)
         console.log('返回值', data.errCode)

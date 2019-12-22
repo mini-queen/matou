@@ -84,7 +84,8 @@
             <div class="title">{{item.title}}</div>
             <div class="time">
               <span>{{item.pubDateStr}}</span>
-              <span>{{item.readTimes || 0}}<span>阅读</span></span>
+              <span><span></span></span>
+               <!-- <span>{{item.readTimes || 0}}<span>阅读</span></span> -->
               <div><span class="tags" v-if="item.isOriginal == '1'">原创</span></div>
             </div>
           </div>
@@ -112,7 +113,7 @@ export default {
       baseUrl: this.$baseUrl,
       currentData: 0,
       activeIndex: 0,
-      encyList: [],
+      encyList: [], // 文章列表
       shopList: [], // 店铺列表
       goodList: [], // 零元购列表
       acticleList: [], // 文章列表
@@ -302,16 +303,16 @@ export default {
           this.isShowNodata = false
         }
       }
-    },
-
-    checkCurrent: function (e) {
-      const that = this
-      if (that.currentData === e) {
-        return false
-      } else {
-        that.currentData = e
-      }
     }
+
+    // checkCurrent: function (e) {
+    //   const that = this
+    //   if (that.currentData === e) {
+    //     return false
+    //   } else {
+    //     that.currentData = e
+    //   }
+    // }
   }
 }
 </script>

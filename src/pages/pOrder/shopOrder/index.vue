@@ -214,10 +214,10 @@ export default {
         maId: null,
         deliveryType: null,
       //
-      dataList: [],
-      shopTitle: '',
-      itemGOriginalPrice: 0,
-      itemTotalGprice: 0,
+      dataList: [], // 数据 数组
+      shopTitle: '', // 店铺标题
+      itemGOriginalPrice: 0, // 原价
+      itemTotalGprice: 0, // 小计
       storeFreightPrice: 0, // 包装费
       freightPrice: 0, // 配送费
       priceDifferences: 0, // 享受会员价
@@ -229,35 +229,38 @@ export default {
       addressID: 0, // 当前地址id
       orderId: '', // 订单ID
       shop: {}, // 商户信息
-      isShow: false,
-      agree: false,
-      tabName: 'delivery',
-      showMore: false,
-      items: 3,
+      myPhone: '', // 当前人手机号
+      isShow: false, // 地址弹层
+      // agree: false,
+      tabName: 'delivery', // 展示配送信息
+      showMore: false, // 收起展开
+      // items: 3,
       latitude: 40.01453,
       longitude: 116.352449,
-      shopDetailAddress: '',
-      noVipFlag: false,
-      markers: [{
-        id: 1,
-        latitude: 40.01453,
-        longitude: 116.352449,
-        width: 15,
-        height: 21,
-        name: '今日头条',
-        iconPath: '/static/images/map-marker.png',
-        callout: {
-          content: '',
-          color: '#999',
-          fontSize: '14',
-          borderColor: '#cecece',
-          borderRadius: 24,
-          borderWidth: '1',
-          display: 'ALWAYS',
-          bgColor: '#ffffff',
-          padding: 10
-        }
-      }]
+      // shopDetailAddress: '',
+      noVipFlag: false, // 会员标识
+      markers: [ // 超市信息
+      //   {
+      //   id: 1,
+      //   latitude: 40.01453,
+      //   longitude: 116.352449,
+      //   width: 15,
+      //   height: 21,
+      //   name: '今日头条',
+      //   iconPath: '/static/images/map-marker.png',
+      //   callout: {
+      //     content: '',
+      //     color: '#999',
+      //     fontSize: '14',
+      //     borderColor: '#cecece',
+      //     borderRadius: 24,
+      //     borderWidth: '1',
+      //     display: 'ALWAYS',
+      //     bgColor: '#ffffff',
+      //     padding: 10
+      //   }
+      // }
+      ]
     }
   },
   computed: {
@@ -267,11 +270,6 @@ export default {
     comCheckbox, popup
   },
  async mounted () {
-    var res = await getMyAccount()
-    var mVipFlag = res.result.result.member.mVipFlag
-    var mPartnerFlag = res.result.result.member.mPartnerFlag
-    var userInfo = wx.getStorage('userInfo')
-    this.noVipFlag = mVipFlag + mPartnerFlag == 0
     this.qqmapsdk = new QQMapWX({
       key: 'SDKBZ-66T34-UZPUY-DDPCH-GO6DK-AYFKQ'
     })
@@ -287,6 +285,7 @@ export default {
   },
   onShow () {
     this.doGetOrderInfo()
+    this.getMyAccountInfo()
     // console.log('onShow', this)
     // this.remark = wx.getStorage('remark')
     // console.log('remark: ' + this.remark)
@@ -300,9 +299,19 @@ export default {
 })
   },
   onUnload () {
-
+    this.myPhone = ''
   },
   methods: {
+    async getMyAccountInfo () {
+      let token = wx.getStorageSync('DIAN_TOKEN')
+      if (token) {
+        var res = await getMyAccount()
+        var mVipFlag = res.result.result.member.mVipFlag
+        var mPartnerFlag = res.result.result.member.mPartnerFlag
+        this.noVipFlag = mVipFlag + mPartnerFlag == 0
+        this.myPhone = res.result.result.member.mphone
+      }
+    },
     goVip () {
       wx.navigateTo({
         url: '/pages/pEncyclopedia/member/joinVip/main'
@@ -345,7 +354,7 @@ export default {
       console.log('addNewAddress...')
       wx.navigateTo({url: `/pages/pMe/addAddress/main?flag=add&maId=0`})
     },
-
+// 写备注
     gotoRemark () {
         wx.navigateTo({url: `/pages/pOrder/orderRemark/main`})
     },
@@ -384,6 +393,13 @@ export default {
 
     // 开始提交订单
     async doGenerateOrder () {
+      if (!this.myPhone) { // 如果没有绑定手机号跳转到绑定手机号页面
+            wx.navigateTo({
+                url: '/pages/pMe/bindPhone/main'
+            })
+            return
+        }
+
         if (this.addressID == 0 && this.tabName == 'delivery') {
           wx.showToast({
             title: '地址不能为空', // 提示的内容,

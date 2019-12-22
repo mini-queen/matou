@@ -106,23 +106,23 @@ export default {
       backurlFromShopOrder: '/pages/pOrder/shopOrder/main', // 返回店铺商品提交页面
       backurlFromMy: '/pages/pMe/addressList/main', // 返回我的地址
       backGoodOrder: 'pages/pIndex/goodOrder/main', // 返回自营商品订单提交
-      layerShow: false,
-      maName: '',
-      maPhone: '',
-      maLabel: '0',
-      maDetail: '',
-      maStateLocal: false,
-      deatailAddr: '',
-      region: [],
-      address: '',
-      isShow: false,
-      addressId: 0,
-      addressInfo: {},
-      regionType: 1,
-      regionList: [],
-      currentLevel: 1,
-      levelName: 'province',
-      selectRegionDone: false,
+      layerShow: false, // 确认提示
+      maName: '', //  收货人姓名
+      maPhone: '', // 收货人手机号
+      maLabel: 99, // 地址标签
+      maDetail: '', // 自填详细地址
+      maStateLocal: false, // 是否默认地址
+      deatailAddr: '', // 详细地址
+      region: [], // 临时缓存四级选择地址
+      address: '', // 四级地址 详细
+      isShow: false, // 四级选择弹出
+      addressId: 0, // 地址ID
+      addressInfo: {}, // 地址信息
+      regionType: 1, // 四级地址第一级 省
+      regionList: [], // 四级地址 对象列表
+      currentLevel: 1, // 当前等级
+      levelName: 'province', // 等级 名
+      selectRegionDone: false, // 关闭四级弹出
       maCountyId: '',
       selectRegionList: [
         { id: 0, name: '省份', levelName: 'province', level: 1 },
@@ -187,7 +187,7 @@ export default {
     this.address = ''
     this.deatailAddr = ''
     this.maStateLocal = false
-    this.maLabel = 0
+    this.maLabel = 99
   },
   methods: {
     checkPhone () {

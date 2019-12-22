@@ -20,7 +20,7 @@
           <div class="contop">
               <div class="middle">
                 <div class="title">{{item.c_title}}</div>
-                <span>仅限盐城市亭湖区门店使用</span>
+                <span>仅限门店使用</span>
               </div>
               <div class="icon" v-show="activeIndex == 2"> 
                   <img src="/static/images/pic1.png" alt="">

@@ -56,6 +56,7 @@
         })
       },
       getActivity: async function () {
+        this.city = wx.getStorageSync('CURRENT_CITY')
         let parmas = {
           city: this.city,
           uid: this.uuid

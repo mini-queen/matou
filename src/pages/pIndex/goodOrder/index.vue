@@ -5,10 +5,10 @@
         <span class="tip">{{ detailAddressInfo }}</span>
         <image class="arrow-img" src="/static/images/arrow.png"></image>
       </div>
-       <div class="addr-bottom">
-            <span class="user-name">{{currentAddress.maName}}</span>
-            <span class="tel">{{currentAddress.maPhone}}</span>
-          </div>
+      <div class="addr-bottom">
+        <span class="user-name">{{currentAddress.maName}}</span>
+        <span class="tel">{{currentAddress.maPhone}}</span>
+      </div>
       <div class="address-tip">预计送达时间依赖于快递运输流程</div>
     </div>
     <div class="section" v-for="(item,index) in dataList" :key="index">
@@ -111,16 +111,16 @@
               <div class="item-left center-left">
                 <com-checkbox :value="item.checked" @changeHandle="checkAddr(index)"></com-checkbox>
                 <div class="addr-content">
-                  <div class="address"  @click="checkAddr(index)">{{item.pName + item.cName + item.aName + item.ccName + item.maDetail}} </div>
+                  <div class="address" @click="checkAddr(index)">{{item.pName + item.cName + item.aName + item.ccName + item.maDetail}} </div>
                   <div class="addr-content_bottom">
                     <span class="user-name">{{item.maName}}</span>
                     <span class="tel">{{item.maPhone}}</span>
                     <div class="tag">
-                <span class="tag-item red" v-if="item.maState">默认</span>
-                <span class="tag-item blue" v-if="item.maLabel==0">公司</span>
-                <span class="tag-item yellow" v-if="item.maLabel==1">家</span>
-                <span class="tag-item green" v-if="item.maLabel==2">学校</span>
-              </div>
+                      <span class="tag-item red" v-if="item.maState">默认</span>
+                      <span class="tag-item blue" v-if="item.maLabel==0">公司</span>
+                      <span class="tag-item yellow" v-if="item.maLabel==1">家</span>
+                      <span class="tag-item green" v-if="item.maLabel==2">学校</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -156,7 +156,7 @@
 <script>
 import comCheckbox from '@/components/checkbox'
 import popup from '@/components/popup'
-import { checkGetOrderInfo, generateOrder, getOrderInfo } from '@/utils/api'
+import { checkGetOrderInfo, generateOrder, getOrderInfo, getMyAccount } from '@/utils/api'
 export default {
   data () {
     return {
@@ -164,17 +164,17 @@ export default {
       baseUrl: this.$baseUrl,
       // 参数
       shopId: null,
-      gbSalePlat: 1,
-      ocIds: null,
-      maId: null,
-      deliveryType: null,
-      isShow: false,
+      gbSalePlat: 1, // 0 自提 1 配送
+      ocIds: null, // 订单ID
+      maId: null, // 地址ID
+      deliveryType: null, // 订单类型
+      isShow: false, // 地址弹层
       //
       goodId: null,
-      showMore: false,
-      dataList: [],
-      itemGOriginalPrice: 0,
-      itemTotalGprice: 0,
+      showMore: false, // 展开收起
+      dataList: [], // 商品数组
+      itemGOriginalPrice: 0, // 商品原价
+      itemTotalGprice: 0, // 商品小计
       storeFreightPrice: 0, // 包装费
       freightPrice: 0, // 配送费
       priceDifferences: 0, // 享受会员价
@@ -187,7 +187,8 @@ export default {
       addressID: 0, // 当前地址id
       orderId: '', // 订单ID
       shop: {}, // 商户信息
-      shopTitle: ''
+      shopTitle: '',
+      myPhone: '' // 用户手机号
     }
   },
   mounted () {
@@ -205,6 +206,7 @@ export default {
   onShow () {
     console.log('onShow...')
     this.doGetOrderInfo()
+    this.getMyAccountInfo()
     // console.log('onShow', this)
     // this.remark = wx.getStorage('remark')
     // console.log('remark: ' + this.remark)
@@ -223,6 +225,12 @@ export default {
     this.dataList = []
     this.detailAddressInfo = ''
     this.remark = ''
+    this.myPhone = ''
+    this.itemGOriginalPrice = 0
+    this.itemTotalGprice = 0
+    this.storeFreightPrice = 0
+    this.freightPrice = 0 // 配送费
+    this.priceDifferences = 0 // 享受会员价
   },
   components: {
     comCheckbox, popup
@@ -231,6 +239,13 @@ export default {
   //     this.goodId = option.goodId
   //   },
   methods: {
+    async getMyAccountInfo () {
+      let token = wx.getStorageSync('DIAN_TOKEN')
+      if (token) {
+        var res = await getMyAccount()
+        this.myPhone = res.result.result.member.mphone
+      }
+    },
     // 获取订单信息
     async doGetOrderInfo () {
       let params = {
@@ -278,6 +293,13 @@ export default {
     },
     // 开始提交订单
     async doGenerateOrder () {
+      if (!this.myPhone) { // 如果没有绑定手机号跳转到绑定手机号页面
+        wx.navigateTo({
+          url: '/pages/pMe/bindPhone/main'
+        })
+        return
+      }
+
       if (this.addressID == 0) {
         wx.showToast({
           title: '地址不能为空', // 提示的内容,
@@ -348,8 +370,8 @@ export default {
       // this.detailAddressInfo = this.currentAddress.ccName + this.currentAddress.aName + this.currentAddress.ccName + this.currentAddress.maDetail
       this.detailAddressInfo = this.currentAddress.pName + this.currentAddress.cName + this.currentAddress.aName + this.currentAddress.ccName + this.currentAddress.maDetail
     },
-       editNewAddress (maid) {
-       wx.navigateTo({url: `/pages/pMe/addAddress/main?maId=${maid}` + `&flag=edit`})
+    editNewAddress (maid) {
+      wx.navigateTo({ url: `/pages/pMe/addAddress/main?maId=${maid}` + `&flag=edit` })
     },
     gotoRemark () { // 添加备注
       wx.navigateTo({ url: `/pages/pOrder/orderRemark/main` })
@@ -359,45 +381,44 @@ export default {
 }
 </script>  
 <style lang="less" scoped>
- .addr-bottom {
-          padding: 30rpx 0;
-          font-size: 28rpx;
-          color: @grey;
-          border-bottom: 1rpx solid #E5E5E5;
-          .user-name {
-            margin-right: 60rpx;
-          }
-          .tel {
-            
-          }
-        }
-          .tag{
-            font-size: 12px;
-            display: inline-block;
-            margin-left: 24rpx;
-            .tag-item{
-              width: 30px;
-              height: 15px;
-              margin: 0 4px;
-              text-align: center;
-              }
-              .green{
-                color: rgb(84, 251, 42);
-                background-color: rgb(227, 255, 204);
-              }
-              .red{
-                background-color: #FCDDDD;
-              color: #FB2A2A;
-              }
-              .yellow{
-                background-color: #FCEBCC;
-              color: #FE6A00;
-              }
-              .blue{
-                background-color: #DDEFFC;
-              color: #38A4F0;
-              }
-            }
+.addr-bottom {
+  padding: 30rpx 0;
+  font-size: 28rpx;
+  color: @grey;
+  border-bottom: 1rpx solid #e5e5e5;
+  .user-name {
+    margin-right: 60rpx;
+  }
+  .tel {
+  }
+}
+.tag {
+  font-size: 12px;
+  display: inline-block;
+  margin-left: 24rpx;
+  .tag-item {
+    width: 30px;
+    height: 15px;
+    margin: 0 4px;
+    text-align: center;
+  }
+  .green {
+    color: rgb(84, 251, 42);
+    background-color: rgb(227, 255, 204);
+  }
+  .red {
+    background-color: #fcdddd;
+    color: #fb2a2a;
+  }
+  .yellow {
+    background-color: #fcebcc;
+    color: #fe6a00;
+  }
+  .blue {
+    background-color: #ddeffc;
+    color: #38a4f0;
+  }
+}
 .cu-modal {
   position: fixed;
   top: 0;
@@ -570,7 +591,7 @@ export default {
       }
     }
   }
-         
+
   .addr-extra {
     height: 60rpx;
     font-size: 28rpx;

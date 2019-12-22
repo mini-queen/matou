@@ -86,7 +86,7 @@
           </button>
         </div>
       </div>
-      <div class="shops">
+      <div class="shops" v-if="shopList.length > 0">
         <!-- <div class="shop-title space-between">
           <div class="tip">60家店铺支持取货</div>
           <div class="more">
@@ -111,7 +111,7 @@
         </div>
       </div>
       <!-- 购买了显示 -->
-      <div class="invite-rebate"  v-if="memberBuy">
+      <div class="invite-rebate" >
         <div class="invite-title">
           邀请好友享返利
         </div>
@@ -204,37 +204,37 @@
         yqfriends: '', // 邀请好友后显示
         memberBuy: '', // 自己购买后显示
         baseUrl: this.$baseUrl,
-        isShow: false,
-        isAuto: true,
-        OrderGroupsMember: {},
+        isShow: false, // 底部弹出层 规格..
+        isAuto: true, // 轮播图自动
+        OrderGroupsMember: {}, // 0元购  判断第一次购买
         imgUrls: [
           { url: '/static/images/shop.png' },
           { url: '/static/images/shop.png' }
         ],
         goodNum: 1,
-        friendsList: 10,
-        isExpand: true,
-        stock: '',
-        gsLimit: '',
+        friendsList: 10, // 邀请好友数量
+        isExpand: true, // 判断是否邀请好友
+        stock: '', // 库存
+        gsLimit: '', // 限购数量
   
         shopList: [],
-        numberRemaining: 0,
-        rewardReceived: 0,
-        originalPrice: 31.8,
-        gsPrice: 38.8,
-        gTitle: '',
-        gBq1: '',
-        gBq2: '',
-        friendsLimit: 9,
+        numberRemaining: 0, // 还需邀请数量
+        rewardReceived: 0, // 累计获得邀请返利
+        originalPrice: 31.8, // 原价
+        gsPrice: 38.8, // 价格
+        gTitle: '', // 商品标题
+        gBq1: '', // 规格
+        gBq2: '', // 规格
+        friendsLimit: 9, // 最大邀请数量
         ogmParentId: '',
         goodsInfo: {},
-        classes: [],
-        currRule: '',
+        classes: [], // 商品规格
+        currRule: '', // 当前规格
         shopId: '',
         ogTakeMeth: '', // 配送方式 1自提  2快递
         shopOnSaleCount: 0,
-        isFollow: 0,
-        isGoodsShow: true,
+        isFollow: 0, // 收藏
+        isGoodsShow: true, // 详情显示
         goodInfo: {},
         mcdIds: '', // 订单ID
         alertMsg: '' //  取不到订单ID时的提示信息
@@ -392,10 +392,12 @@
           }
         }
     },
+    // 判断邀请状态
       expand (status) {
           this.friendsLimit = status ? this.friendsList.length : 9
           this.isExpand = !status
       },
+      // 添加商品
       addGood (params) {
         let token = wx.getStorageSync('DIAN_TOKEN') ? wx.getStorageSync('DIAN_TOKEN') : this.token
             if (!token) {
@@ -414,6 +416,7 @@
         this.goodNum++
         console.log('add', params)
       },
+      // 减少商品
       reduceGood (params) {
         if (this.goodNum === 1) return
         this.goodNum--
@@ -422,6 +425,7 @@
       numHandle (params) {
         console.log('numHandle', params)
       },
+      // 去付款
       goShopping () {
         let token = wx.getStorageSync('DIAN_TOKEN') ? wx.getStorageSync('DIAN_TOKEN') : this.token
         if (!token) {
@@ -465,6 +469,7 @@
           url: '/pages/index/main'
         })
       },
+      // 收藏
       async collect () {
         let token = wx.getStorageSync('DIAN_TOKEN') ? wx.getStorageSync('DIAN_TOKEN') : this.token
         if (token) {

@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="good-des" v-if="orderInfo.mailMethod != 10">
-                <div class="flex">
+                <div class="flex" v-if="orderInfo.packMoney > 0">
                     <span>包装费</span>
                     <span> ¥{{orderInfo.packMoney}}</span>
                 </div>
@@ -185,15 +185,15 @@
             <span>退款原因</span>
             <span>{{orderInfo.orderShopGoodsRefundApply.refundReason}}</span>
        </div>
-        <div class="detail-item flex">
+        <div class="detail-item flex" v-if="orderInfo.orderShopGoodsRefundApply.refundRealPrice">
             <span>退款说明</span>
             <span></span>
        </div>
-       <div class="detail-item flex">
+       <div class="detail-item flex" v-if="orderInfo.orderShopGoodsRefundApply.refundDealTime">
             <span>退款时间</span>
             <span>{{orderInfo.orderShopGoodsRefundApply.refundDealTime}}</span>
        </div>
-        <div class="detail-item flex">
+        <div class="detail-item flex" v-if="orderInfo.orderShopGoodsRefundApply.refundRealPrice">
             <span>退款金额</span>
             <span>¥{{orderInfo.orderShopGoodsRefundApply.refundRealPrice}}</span>
        </div>
@@ -279,18 +279,18 @@ export default {
     return {
         baseUrl: this.$baseUrl,
         publicShare: this.$publicShare,
-        orderId: null,
+        orderId: null, // 订单ID
         orderStatusMap: {0: '待支付', 1: '待收货', 2: '已发货', 3: '已收货', 4: '已取消（超时）', 5: '已取消（退货）', 6: '已取消（未取）', 7: '已完成（部分退货）'},
         payMethodMap: {0: '码粒支付', 1: '支付宝', 2: '微信支付', 3: '店铺余额', 4: '连锁余额'},
         orderRefundStateMap: {0: '未退', 1: '退款中', 2: '退款已完成'},
         refundMethMap: {10: '我要退货退款', 20: '我要退款'},
         refundScopeMap: {10: '整单退款', 20: '部分退款'},
-        orderInfo: {
-            orderShopGoodsRefundApply: {}
+        orderInfo: { // 订单信息
+            orderShopGoodsRefundApply: {} // 退款状态
         },
-        showPlatform: true,
-        orderCreatetime: '',
-        orderPayTime: '',
+        // showPlatform: true,
+        orderCreatetime: '', // 订单创建时间
+        orderPayTime: '', // 支付时间
         isShow: false, // 是否显示平台接入弹窗
         orderCompleteTimeLong: '', // 取货时间
         applyTime: '' // 申请退款时间
@@ -324,14 +324,15 @@ export default {
       }
     },
   methods: {
-    close () {
-      this.isShow = false
-    },
-    doShowApply () {
-      console.log('showApply...')
-      this.isShow = true
-    },
-    // 1.详情
+    // close () {
+    //   this.isShow = false
+    // },
+    // doShowApply () {
+    //   console.log('showApply...')
+    //   this.isShow = true
+    // },
+
+    // 1.订单详情
     async getDetail () {
        wx.showLoading({
           title: '加载中'

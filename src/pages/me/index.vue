@@ -162,11 +162,11 @@ export default {
   data () {
     return {
       userHeadpic: 'http://sniu.2dian.com/xcx/static/matou/defaultheadpic.png', // 用户头像
-      member: '',
-      mPartnerFlag: '',
-      mVipFlag: '',
-      isLogin: false,
-      PartnerFlag: ''
+      member: '', // 用户信息
+      mPartnerFlag: '', // 合伙人标识 0/1 否/是
+      mVipFlag: '', // vip 标识 0 /1 否/ 是
+      isLogin: false, // 是否登录标识
+      PartnerFlag: '' // 合伙人标识 T/F
     }
   },
   computed: {
@@ -208,11 +208,13 @@ export default {
     this.mVipFlag = ''
   },
   methods: {
+    // 跳转消息页
     goMsg () {
       wx.navigateTo({
         url: '/pages/pMe/message/main'
       })
     },
+    // 获取用户信息
     async getMyAccount () {
       var result = await getMyAccount()
       this.member = result.result.result.member
@@ -222,6 +224,7 @@ export default {
       this.userHeadpic = this.member.mheadurl
       console.log(this.member, this.mPartnerFlag)
     },
+    // 登录
     doLogin () {
       let token = wx.getStorageSync('DIAN_TOKEN')
       if (!token) {

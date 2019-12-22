@@ -68,15 +68,15 @@ export default{
       showPay: false,
       isShowLeftTime: true, // 是否显示剩余倒计时
       isShow: false, // 是否弹出输入支付密码框
-      orderInfo: {},
-      memberInfo: {},
-      orderPrice: 0,
+      orderInfo: {}, // 订单信息
+      memberInfo: {}, // 用户信息`
+      orderPrice: 0, // 订单价格
       payPassword: '', // 用户输入的支付密码
       payType: '', // MEMBER_PARTNER_YEAR1_PRICE，MEMBER_PARTNER_YEAR2_PRICE，MEMBER_PARTNER_YEAR3_PRICE
       shopId: 0, // 店铺ID
-      time: '30:00',
-      amount: 58.5,
-      myMali: 0,
+      time: '30:00', // 订单倒计时
+      // amount: 58.5,
+      myMali: 0, // 码粒
       paymentData: {
           title: '请输入支付密码'
         },
@@ -147,7 +147,7 @@ export default{
     this.isShowLeftTime = true
   },
   methods: {
-    checkHandler (item) {
+    checkHandler (item) { // 选择支付方式
       console.log('checkHandler')
       let payment = this.paymentList.find(item => item.isCheck)
       if (item.isCheck === false && (payment && payment.name !== item.name)) {
@@ -199,7 +199,7 @@ export default{
         }
        },
 
-    async loadOrder () {
+    async loadOrder () { // 订单相关信息获取
       let params = {
             orderId: this.orderId //
         }
@@ -217,7 +217,7 @@ export default{
         this.myMali = data.result.result.member.mprice
       }
     },
-    surePay () {
+    surePay () { // 支付校验
       // wx.navigateTo({url: '/pages/pIndex/goodPayOk/main'})
       if (this.payMethodName === '码粒') {
         // 码粒支付
@@ -274,7 +274,7 @@ export default{
                })
       },
 
-   async getMd5 () {
+   async getMd5 () { // MD5加密
       let params = {
             str: this.payPassword
         }

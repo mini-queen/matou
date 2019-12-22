@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="title">码上取货</div>
+    <div class="title">{{showName}}</div>
     <div class="codebox">
      <div class="code">
        <canvas class='canvas' canvas-id='canvas'></canvas>
@@ -15,13 +15,18 @@
           </div>
          <img src="/static/images/arrow.png" alt="">
        </div>
-
-       <div class="shop" @click="goShopDetail" v-if="isShowShopList != 1 && shopTitle">
+         <div class="shop"  v-if="isShowShopList != 1 && shopTitle">
+         <div class="s">
+          <div style="margin-left: 60px">{{shopTitle}}</div>
+          </div>
+         <span></span>
+       </div>
+       <!-- <div class="shop" @click="goShopDetail" v-if="isShowShopList != 1 && shopTitle">
          <div class="s">
           <div style="margin-left: 10px">{{shopTitle}}</div>
           </div>
          <img src="/static/images/arrow.png" alt="">
-       </div>
+       </div> -->
 
        </div>
    </div>
@@ -35,7 +40,8 @@ export default {
     return {
 
       isShowShopList: 0, // 是否显示门店列表 0不展示 1为展示
-      shopTitle: ''
+      shopTitle: '', // 店铺名称
+      showName: '' // 显示名称
  
     }
   },
@@ -55,6 +61,10 @@ export default {
       this.unit = option.unit
       this.reqdecrystr = option.reqdecrystr
       console.log(option)
+      wx.setNavigationBarTitle({
+        title: '优惠券'
+        })
+      this.showName = '好礼扫出来'
       this.genQtCode(this.code, this.id, this.number, this.unit, this.reqdecrystr)
     } else if (this.flag == 2) { // 订单列表取货
       this.shopId = option.orderShopId
@@ -66,6 +76,10 @@ export default {
       this.shopTitle = option.shopTitle
       this.jumpShopId = option.shopId
       console.log(option)
+      this.showName = '码上取货'
+      wx.setNavigationBarTitle({
+        title: '取货'
+        })
       this.genQtCodeForOrder(this.shopId, this.goodNumber, this.goodUnit, this.reqDecryStr)
     }
  },

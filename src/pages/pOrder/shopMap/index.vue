@@ -38,6 +38,7 @@
             <span class="label" v-for="(item,index) in shopInfo.labels" :key="index">{{item}}</span>
           </div>
           <div class="info-bottom">
+            自营商品￥0元起送 | 商城商品一件包邮
             <!-- <span class="favorable">满39减8</span> 
             <span class="favorable">满99减28</span>  -->
             <!-- <span class="open-time">24小时营业</span> -->
@@ -62,31 +63,30 @@ export default {
   data () {
     return {
       baseUrl: this.$baseUrl,
-      address: '',
-      qqmapsdk: '',
+      address: '', // 地址
+      qqmapsdk: '', // sdk
       latitude: 39.732494,
       longitude: 116.348215,
-      scale: 11,
       sOpen: 0, // 开店状态 0-开店，1-闭店  -1 待开  -2 待开 （已认证）
-      markers: [{
-        id: 1,
-        latitude: 39.732494,
-        longitude: 116.348215,
-        width: 15,
-        height: 21,
-        name: '店铺',
-        iconPath: '/static/images/map-marker.png',
-        callout: {
-          content: '店铺',
-          color: '#999',
-          fontSize: '14',
-          borderColor: '#cecece',
-          borderRadius: 8,
-          borderWidth: '1',
-          display: 'ALWAYS',
-          bgColor: '#ffffff',
-          padding: 10
-        }
+      markers: [{ // 超市数据
+        // id: 1,
+        // latitude: 39.732494,
+        // longitude: 116.348215,
+        // width: 15,
+        // height: 21,
+        // name: '店铺',
+        // iconPath: '/static/images/map-marker.png',
+        // callout: {
+        //   content: '店铺',
+        //   color: '#999',
+        //   fontSize: '14',
+        //   borderColor: '#cecece',
+        //   borderRadius: 8,
+        //   borderWidth: '1',
+        //   display: 'ALWAYS',
+        //   bgColor: '#ffffff',
+        //   padding: 10
+        // }
       }],
       customItem: '全部',
       region: ['北京市', '', ''],
@@ -145,6 +145,7 @@ export default {
         this.longitude = 116.348215
       }
     },
+    // 店铺地图
     async shopMap () {
       let param = {
         city: this.region.join('').replace(/([\u4e00-\u9fa5]+)\1([\u4e00-\u9fa5]+)/g, '$1$2').replace('全部', ''), // + this.address,
@@ -173,6 +174,7 @@ export default {
         }
       }
     },
+    // 设置地图信息
     setMapInfo () {
       let locations = []
       this.latitude = this.shopInfo.sLat

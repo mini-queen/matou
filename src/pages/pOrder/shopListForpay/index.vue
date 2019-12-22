@@ -84,6 +84,7 @@ export default {
       this.fromType = 0 // 1为从超值购跳转过来
   },
   methods: {
+    // 加入合伙人
     joinHHR (sid, title) {
       wx.navigateTo({
         url: `/pages/pEncyclopedia/member/joinCopartner/main?shopId=${sid}&shopName=${title}`

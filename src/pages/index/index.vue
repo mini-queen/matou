@@ -46,35 +46,35 @@
   
   import navigationBar from './navbar'
   import { getIndexGoods, getMyAccount } from '@/utils/api'
-  import { debounce } from '@/utils/tool'
+  // import { debounce } from '@/utils/tool'
   var QQMapWX = require('../../../lib/qqmap-wx-jssdk.min.js')
   export default {
     data () {
       return {
         baseUrl: this.$baseUrl,
         publicShare: this.$publicShare,
-        topList: [
+        topList: [ // 顶部导航按钮
           {img: '/static/images/qr-code.png', tip: '付款码', flag: 1},
           {img: 'https://sniu.2dian.com/xcx/static/matou/collect.png', tip: '收藏', flag: 222},
           {img: '/static/images/zuji.png', tip: '浏览足迹', flag: 3},
           {img: '/static/images/recharge.png', tip: '话费充值', flag: 4}
         ],
-        bannerList: [
+        bannerList: [ // 导航按钮
           {img: 'https://sniu.2dian.com/xcx/static/matou/fujin.png', tip: '附近的店', flag: 5},
           {img: 'https://sniu.2dian.com/xcx/static/matou/lingyuan.png', tip: '0元购', flag: 6},
           {img: 'https://sniu.2dian.com/xcx/static/matou/baike.png', tip: '生活百科', flag: 7},
           {img: 'https://sniu.2dian.com/xcx/static/matou/huiyuan.png', tip: '会员中心', flag: 8},
           {img: 'https://sniu.2dian.com/xcx/static/matou/kaidian.png', tip: '轻松开店', flag: 9}
         ],
-        hasMore: false,
+        hasMore: false, // 是否有更多数据 加载
         items: 6,
-        shopList: [],
+        shopList: [], // 店铺列表
         pageSize: 10,
         pageNo: 1,
         pageCount: 0,
         currentPage: -1,
-        addr: '',
-        mPartnerFlag: 0
+        addr: '', // 当前地址
+        mPartnerFlag: 0 // 合伙人标识 0 否 1是
       }
     },
     computed: {
@@ -109,6 +109,7 @@
       if (currentAddress) {
          this.addr = currentAddress
       }
+       // 清除上一次的缓存
       let isRefresh = wx.getStorageSync('isRefresh')
       console.log('isRefresh: ', isRefresh)
       if (isRefresh == 1) {
@@ -136,6 +137,7 @@
         }, 1200)
       }
     },
+    // 分享按钮
     onShareAppMessage: function (res) {
       if (res.from === 'button') {
         console.log(res.target)
@@ -148,9 +150,11 @@
         }
     },
     methods: {
-      inputSearch: debounce(function (val) {
-        console.log('搜', val)
-      }, 500),
+  
+      // inputSearch: debounce(function (val) {
+      //   console.log('搜', val)
+      // }, 500),
+     // 获取当前定位
       getLocation () {
         const that = this
         wx.getLocation({
@@ -169,8 +173,9 @@
               },
               success: function (res) {
                 console.log(res.result, 'wx.getLocation')
-                that.addr = res.result.ad_info.city
+                that.addr = res.result.ad_info.district
                 wx.setStorageSync('CURRENT_ADDRESS', that.addr)
+                 wx.setStorageSync('CURRENT_CITY', that.addr)
                 console.log('定位信息', that.addr)
                 that.getGoods()
               },
@@ -183,7 +188,7 @@
           }
         })
       },
-
+        // 获取会员信息
     async getMyAccount () {
           var result = await getMyAccount()
           this.member = result.result.result.member
@@ -201,6 +206,7 @@
               })
           }
         },
+        // 跳转 搜素页
       goSearch () {
         let token = wx.getStorageSync('DIAN_TOKEN')
         if (!token) {
@@ -281,7 +287,7 @@
           })
         }
       },
-
+        // 获取首页推荐店铺
       async getGoods () {
           let longitude = wx.getStorageSync('LONGITUDE')
           let latitude = wx.getStorageSync('LATITUDE')

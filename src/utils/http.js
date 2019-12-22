@@ -3,7 +3,7 @@
 // import {getToken} from './util'
 let Fly = require('flyio/dist/npm/wx')
 const request = new Fly()
-request.config.timeout = 10 * 1000
+request.config.timeout = 15 * 1000
 request.config.baseURL = `https://test-webchat.bianlimt.com`
 // request.config.baseURL = `http://192.168.1.197:30006`
 request.interceptors.request.use((request) => {
@@ -25,16 +25,16 @@ request.interceptors.response.use(
   (err, promise) => {
     wx.hideLoading()
     wx.showToast({
-      title: err.message,
+      title: '网络请求失败,请稍后重试',
       icon: 'none',
-      duration: 1000
+      duration: 2000
     })
-    return promise.resolve()
+    return promise.resolve(err)
   }
 )
 
 const requestNoLoading = new Fly()
-requestNoLoading.config.timeout = 10 * 1000
+requestNoLoading.config.timeout = 15 * 1000
 requestNoLoading.config.baseURL = `https://test-webchat.bianlimt.com`
 requestNoLoading.interceptors.request.use((request) => {
   request.headers['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -53,11 +53,11 @@ requestNoLoading.interceptors.response.use(
   (err, promise) => {
     wx.hideLoading()
     wx.showToast({
-      title: err.message,
+      title: '网络请求失败,请稍后重试',
       icon: 'none',
       duration: 1000
     })
-    return promise.resolve()
+    return promise.resolve(err)
   }
 )
 

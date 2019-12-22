@@ -1,4 +1,4 @@
-export function debounce (fn, delay) {
+export function debounce (fn, delay) { // 做计时操作
     let timer = ''
     return function () {
         let context = this

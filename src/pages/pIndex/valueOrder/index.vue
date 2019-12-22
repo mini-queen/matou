@@ -176,6 +176,7 @@ export default {
       shopId: 0, //
       ogTakeMeth: 0, // 配送方式 1自提  2快递
       shopOnSaleCount: 0,
+      myPhone: '', // 当前用户手机号
       // beanTotal: '',
       peisong: 0,
       selectedAddr: true,
@@ -204,6 +205,7 @@ export default {
   },
   onShow () {
     this.getAddress()
+    this.getMyAccount()
   },
   onLoad () {
     this.getMyAccount()
@@ -223,12 +225,14 @@ export default {
     console.log('ogTakeMeth: ', ogTakeMeth)
     // this.doLittleBuynow()
     this.getCarDetailGoods()
-    this.getMyAccount()
   },
   onUnload () {
     this.isShow = false
     this.isShowPass = false
-     this.remarks = ''
+    this.remarks = ''
+    this.goodsList = '' // 商品信息
+    this.goodsListByShop = '' // 店铺信息
+    this.goodsPriceTotal = ''
   },
   methods: {
      editAddr (maid) { // 编辑地址
@@ -267,16 +271,20 @@ export default {
     // 用户信息
     async getMyAccount () {
       console.log('获取用户信息')
-      var result = await getMyAccount()
-      console.log(result)
-      this.memberInfo = result.result.result.member
-      if (this.memberInfo) {
-        // this.flag = this.memberInfo.mPartnerFlag + this.memberInfo.mVipFlag > 0
-        this.myMali = this.memberInfo.mprice
-        if (this.memberInfo.mPartnerFlag == 1 || this.memberInfo.mVipFlag == 1) {
-          this.flag = true
-        } else {
-          this.flag = false
+      let token = wx.getStorageSync('DIAN_TOKEN')
+      if (token) {
+        var result = await getMyAccount()
+        console.log(result)
+        this.memberInfo = result.result.result.member
+        this.myPhone = result.result.result.member.mphone
+        if (this.memberInfo) {
+          // this.flag = this.memberInfo.mPartnerFlag + this.memberInfo.mVipFlag > 0
+          this.myMali = this.memberInfo.mprice
+          if (this.memberInfo.mPartnerFlag == 1 || this.memberInfo.mVipFlag == 1) {
+            this.flag = true
+          } else {
+            this.flag = false
+          }
         }
       }
     },
@@ -378,12 +386,18 @@ export default {
       let md5Data = await getMd5Encryption(md5params)
       console.log('md5Data : ' + md5Data.result.result)
       // let md5Str = this.getMd5()
+
+      let typeAddressTmp = 0
+      if (this.ogTakeMeth == 2) { // 配送方式 1自提  2快递
+        typeAddressTmp = 1
+        this.shopId = this.addressID
+      }
       let params = {
         memberCarIds: this.mcdIds,
         bean: 0,
         type: 0,
         memberAddressId: this.shopId,
-        typeAddress: 0,
+        typeAddress: typeAddressTmp,
         deviceType: 3,
         remarks: this.remarks,
         ogId: 0,
@@ -415,6 +429,14 @@ export default {
         })
         return
       }
+
+      if (!this.myPhone) { // 如果没有绑定手机号跳转到绑定手机号页面
+            wx.navigateTo({
+                url: '/pages/pMe/bindPhone/main'
+            })
+          return
+      }
+
       console.log('do pay start...')
       if (this.paymentList.findIndex(item => item.isCheck) === -1) {
         return wx.showToast({ title: '请选择支付方式', icon: 'none' })
@@ -429,13 +451,19 @@ export default {
         return
       }
 
+      let typeAddressTmp = 0
+      if (this.ogTakeMeth == 2) { // 配送方式 1自提  2快递
+        typeAddressTmp = 1
+        this.shopId = this.addressID
+      }
+
       let params = {
         memberCarIds: this.mcdIds,
         bean: 0,
         type: 2,
         price: 1,
-        memberAddressId: this.addressID,
-        typeAddress: 1,
+        memberAddressId: this.shopId,
+        typeAddress: typeAddressTmp,
         deviceType: 3,
         ogId: 0
       }

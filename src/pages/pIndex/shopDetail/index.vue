@@ -1,5 +1,5 @@
 <template> 
-<div class="shop-detail-wrap">
+<div class="shop-detail-wrap" v-if="showTotalPage">
     <navigation-bar>
        <div class="bar-wrapper">
           <div class="action-btns">
@@ -260,15 +260,16 @@ export default{
     return {
         shopState: 0, // 店铺状态 0-开店，1-闭店  -1 待开  -2 待开 （已认证）
         goodName: null,
+        showTotalPage: false, // 是否显示整个页面，先隐藏待加载完成后再显示
         shareUrlServer: this.$sharePic,
         shopId: 0,
         isParter: false, //  是否合伙人
         baseUrl: this.$baseUrl2,
-        shopInfo: {},
-        shopLabels: [],
-        hotGoods: [],
-        showTip: false,
-        showCart: false,
+        shopInfo: {}, // 店铺信息
+        shopLabels: [], // 店铺标签
+        hotGoods: [], // 商品信息
+        showTip: false, // 分享菜单
+        showCart: false, // 购物车显示隐藏
         shopName: '',
         tabs: ['店铺自营', '店铺商城'],
         activeTab: 1, // 默认店铺商城
@@ -341,6 +342,10 @@ export default{
     this.isShowShare = false
     this.isShow = false
     this.isShowCart = true
+    this.showTotalPage = false
+    this.memberInfo = ''
+    this.shopInfo = {}
+    this.shopLabels = []
   },
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
@@ -381,6 +386,7 @@ export default{
     getAll () {
         this.getGoodsCateGory()
         this.getHotGoods()
+        this.showTotalPage = true
         this.getMemberInfo()
         this.doAddShopTrack()
     },
@@ -524,16 +530,26 @@ export default{
     },
     // 3.购物车列表
     async getCartList (option) {
+        console.log('getCartList invoke..')
         let params = {
             gbSalePlat: this.activeTab, // 0自营 1商城
             shopId: this.shopId
         }
         let result = (await shopCartList(params)).result.result.items[0]
+        console.log('result: ', result)
+        if (!result) {
+            console.log('begin clear status...')
+            this.hotGoods.forEach(item => {
+                item.buyNum = 0
+            })
+        }
         // this.cartInfo = result
         this.cartInfo = Object.assign({}, result)
         if (option.show) {
             this.showCart = true
         }
+        console.log('this.cartInfo: ', this.cartInfo)
+
         // console.log(result, '购物车列表')
     },
     // 4.添加商品

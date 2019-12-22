@@ -26,18 +26,15 @@ export default {
   data () {
     return {
       baseUrl: this.$baseUrl,
-      shopList: [
-        {sTitle: '啊啊啊啊111111111',
-        sAddressDetail: '踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩从',
-        sMobile: '12345678901'}
+      shopList: [ // 店铺列表
 
       ],
       pageSize: 10,
       pageNo: 1,
       pageCount: 0,
-      couponid: 0,
+      couponid: 0, // 优惠券ID
       flag: 1, // 1为展示优惠券店铺列表 2 为展示取货店铺列表
-      orderId: ''
+      orderId: '' // 订单id
     }
   },
   computed: {
