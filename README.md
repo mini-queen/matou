@@ -14,6 +14,7 @@
 		4.checkbox 将input包裹在div中，display:none; 点击div抛出change事件，通过传入的checked值来控制class的打勾效果
 		5.radio 通过background-clip: content-box;用纯css画出radio样式，选中未选中通过background-color设置
 		6.自定义头部 main.json需设置 "navigationStyle": "custom"
+		标题栏高度：self.titleBarHeight = ((wx.getMenuButtonBoundingClientRect().top - wx.getSystemInfoSync().statusBarHeight) * 2) + wx.getMenuButtonBoundingClientRect().height
 		7.时间线 时间子元素div(relative定位)，伪元素作为左侧线，包含一个图标(absolute定位)和对应的内容
 		8.tabs tab-header部分动画：根据选中的index添加active的class，通过style的translateX实现;tab-centent部分动画：用swiper实现，current属性和change事件
 		9.省市区县四级联动 
